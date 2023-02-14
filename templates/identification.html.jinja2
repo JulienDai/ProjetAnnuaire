@@ -1,0 +1,30 @@
+<html lang="fr">
+<head>
+    <title> Identification</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/identification.css") }}">
+
+</head>
+<body>
+
+<img class="logo" src="{{ url_for("static",filename="img/logo_IMT.jpg") }}">
+    <div>
+        <form method="post">
+            <div>
+              <input type="text" class="nom" id="nom" name="nom" placeholder="Nom">
+            </div>
+            <div>
+                <input type="text" class="prenom" id="prenom" name="prenom" placeholder="Prénom">
+            </div>
+            <div>
+                <input type="submit" class="submit" value="Envoyer">
+            </div>
+
+        </form>
+    </div>
+
+
+</body>
+
+</html>

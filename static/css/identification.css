@@ -1,0 +1,58 @@
+body{
+    background-image: url("/static/img/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+
+
+
+}
+.logo{
+    width:  150px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+form{
+    width: 50%;
+    margin: 20%  auto;
+
+
+}
+
+
+
+
+.nom{
+    width: 100%;
+    border-radius: 5px;
+
+}
+.nom::placeholder{
+
+    text-align:center;
+    vertical-align: middle;
+    text-shadow: black;
+
+}
+.prenom::placeholder{
+    text-align:center;
+    vertical-align: middle;
+}
+
+
+.prenom{
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+.submit{
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 10px;
+    border-radius: 10px;
+    border-width: medium;
+
+}
+
+
