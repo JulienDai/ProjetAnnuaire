@@ -67,6 +67,17 @@ h3{
     float:right;
 }
 
+.someone {
+  background: #3399ff;
+  padding: 20px;
+}
+
+
+.someone li {
+  background: #cce5ff;
+  color: darkblue;
+  margin: 5px;
+}
 
 
 @media(max-width: 910px){
