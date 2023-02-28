@@ -1,41 +1,149 @@
 <html lang="fr">
 <head>
-    <title> Identification</title>
+    <title> Tableau de Bord</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="{{ url_for("static",filename="css/tableau_de_bord.css") }}">
+    <script  src="/static/js/tableau_de_bord.js"></script>
 </head>
 <body>
+<div class="haut">
+
+<h2> Tableau de Bord</h2>
+<a class="profil" href="/oui">
+    <img class="profil" src="{{ url_for("static",filename="img/icon.png") }}">
+
+</a>
+
+
+
+    <HR class="ligne" WIDTH="700px">
+
+
+</div>
+
     <nav class ="navigation">
-        <ol>
-            <li> <select multiple value="" name="TAF">
-                <option value="option1"> Option 1</option>
-                <option value="option2">Option 2</option>
-
-            </select>
-
-            </li>
-
-            <li>
-            <select multiple value=""  name="Promotion" >
-                <option value="option 1"> Option 1</option>
-                <option value="option 2">Option 2</option>
-
-            </select>
-
-            </li>
-
-            <li>
-                 <select multiple value=""  name="Entreprise" >
-                    <option value="option 1"> Option 1</option>
-                    <option value="option 2">Option 2</option>
 
 
-            </li>
-        </ol>
+        <ul>
+            <ui>
+                Filtre:
+            </ui>
+
+
+            <ui> <input type="text" placeholder="TAF" list="taf" id="input_taf">
+                <datalist id="taf">
+                <option value="Objective C">Objective C</option>
+                <option value="C++">C++</option>
+                <option value="C#">C#</option>
+                <option value="Cobol">Cobol</option>
+                    </datalist>
+
+            </ui>
+
+            <ui>
+
+
+            <input type="text" placeholder="Promotion" list="promotion" id="input_promotion">
+                <datalist id="promotion">
+                    <option value="2018-2019">2018-2019</option>
+                    <option value="2019-2020">2019-2020</option>
+                    <option value="2020-2021">2020-2021</option>
+                    <option value="2021-2022">2021-2022</option>
+                    </datalist>
+
+            </ui>
+
+            <ui>
+
+                <input type="text" placeholder="Stage" list="stage" id="input_stage">
+                <datalist id="stage">
+                    <option value="Google">Google</option>
+                    <option value="Alstom">Alstom</option>
+
+                    </datalist>
+
+            </ui>
+
+            <ui>
+
+                <input type="text" placeholder="Entreprise" list="entreprise" id="input_entreprise">
+                <datalist id="entreprise">
+                    <option value="Google">Google</option>
+                    <option value="Alstom">Alstom</option>
+
+                    </datalist>
+
+
+            </ui>
+            <ui>
+                <button class="add" type="submit" onclick="get_input()">Add</button>
+            </ui>
+
+
+        </ul>
+
 
 
     </nav>
+
+<div>
+    <ul class="ajout" id="ajout">
+
+    </ul>
+</div>
+<HR class="ligne" WIDTH="700px">
+
+<br>
+
+<div>
+    <h3> Alumni</h3>
+
+</div>
+
+
+<ul>
+    <li>
+        <div>
+
+            <ul>
+                <ui>
+                    Nom: <span> Grandjacquot</span>
+                </ui>
+                <ui>
+                    Prenom: <span> Alexis</span>
+                </ui>
+
+                <ui>
+                    Promotion: <span>2018-2019</span>
+                </ui>
+
+                <ui>
+                    email: <span>alexisgjt@gmail.com</span>
+                </ui>
+                <ui>
+                    Entreprise: <span class="entreprise">Coca Cola</span>
+                </ui>
+                <ui>
+                    Position: <span class="Position"> Vendeur de cigarette</span>
+                </ui>
+
+
+                <ui>
+                    TAF 2A: <span class="taf_2a">DCL</span>
+                </ui>
+                <ui>
+                    TAF 3A: <span class="taf_3a">IDL</span>
+                </ui>
+
+
+            </ul>
+        </div>
+    </li>
+</ul>
+
+
+
 
 
 </body>
