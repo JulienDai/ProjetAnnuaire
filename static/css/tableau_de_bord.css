@@ -68,15 +68,27 @@ h3{
 }
 
 .someone {
-  background: #3399ff;
+  background: #e1e2e3;
   padding: 20px;
+
+
 }
 
 
 .someone li {
-  background: #cce5ff;
-  color: darkblue;
+  background: #b9c7ea;
+  color: #000000;
   margin: 5px;
+}
+
+.someone_li{
+    display: inline-block;
+    border: solid;
+}
+
+.everyone{
+    display: inline;
+    padding:0;
 }
 
 
