@@ -3,33 +3,22 @@
     <title>students management</title>
 </head>
 <body>
-    {% for student in students %}
-        {{ student.first_name }} <br>
-        {{ student.last_name }}<br>
-        {{ student.promotion }}<br>
-        {{ student.email }}<br>
-        {{ student.taf_2A }}<br>
-        {{ student.taf_2A_year }}<br>
-        {{ student.taf_3A }}<br>
-        {{ student.taf_3A_year }}<br>
-        {{ student.company }}<br>
-        {{ student.company_entry_year }}<br>
-        {{ student.company_position }}<br>
-        {{ student.company_description }}<br>
+    {% for person in people %}
+        {{ person.first_name }} <br>
+
         <ul>
-        {% for internship in student.internship_id %}
-            <li> {{ internship.id }} <br>
-                {{ internship.supervisor_name }}<br>
-                {{ internship.supervisor_email }}<br>
-                {{ internship.year }}<br>
-                {{ internship.duration}}<br>
-                {{ internship.description }}
-
-            </li>
-        {% endfor %}
+        {% for taf in person.tafs %}
+            <li> {{ taf.id }} <br> </li>
+            {% endfor %}
         </ul>
-
     {% endfor %}
+
+         {% for position in positions %}
+             {{ position.id }}
+             {{ position.person_id.id }}
+             {{ position.organisation_id.id }}
+
+        {% endfor %}
 
 
 </body>
