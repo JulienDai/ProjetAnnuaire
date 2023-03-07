@@ -9,14 +9,23 @@
         <ul>
         {% for taf in person.tafs %}
             <li> {{ taf.id }} <br> </li>
-            {% endfor %}
+
+        {% endfor %}
         </ul>
     {% endfor %}
 
+    <br> <br>
+    {% for pfe in  pfes%}
+    {{ pfe.id }}
+    {{ pfe.organisation.id }}
+
+    {% endfor %}
+
+    <br><br>
          {% for position in positions %}
              {{ position.id }}
-             {{ position.person_id.id }}
-             {{ position.organisation_id.id }}
+             {{ position.employee.id }}
+             {{ position.organisation_name.id }}
 
         {% endfor %}
 

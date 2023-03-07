@@ -23,6 +23,8 @@ class PFE(db.Model):
     student=db.relationship('Person', backref='pfe_student', foreign_keys=[student_id])
     supervisor_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     supervisor=db.relationship('Person', backref='pfe_supervisor', foreign_keys=[supervisor_id])
+    organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'))
+    organisation = db.relationship('Organisation', backref='pfe_organisation')
     supervisor_email = db.Column(db.String(50))
     year=db.Column(db.Integer)
     duration=db.Column(db.Integer)
@@ -38,6 +40,8 @@ class Organisation(db.Model):
 class TAF(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String(50))
+    respo_id = db.Column(db.Integer, db.ForeignKey('person.id'))
+    respo = db.relationship('Person', backref='responsable_id')
 
 class Position(db.Model):
     id=db.Column(db.Integer, primary_key=True)

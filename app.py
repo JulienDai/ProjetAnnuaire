@@ -6,8 +6,10 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
-  ##  "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
+## "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
+
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -50,25 +52,6 @@ def tableau_de_bord():
     db.session.add(roro)
     db.session.commit()
 
-    # Creation stage
-
-    expert = PFE(id=1, supervisor=momo, student=alexis, supervisor_email='momo', year=2018, duration=4,
-                 description='developpement android', title='yoyo')
-    ingenieur = PFE(id=2, supervisor=toto, student=julien, supervisor_email='toto', year=2019, duration=6,
-                    description='python', title='popo')
-    decouverte = PFE(id=3, supervisor=nono, student=johnny, supervisor_email='nono', year=1978, duration=2,
-                     description='feuuuu', title='gogo')
-    ouvrier = PFE(id=4, supervisor=roro, student=alexis, supervisor_email='roro', year=2025, duration=1,
-                  description='usine',
-                  title='koko')
-
-    db.session.add(expert)
-    db.session.add(ingenieur)
-    db.session.add(decouverte)
-    db.session.add(ouvrier)
-
-    db.session.commit()
-
     # ajout organisations
 
     google = Organisation(id=1, entreprise='google')
@@ -78,6 +61,28 @@ def tableau_de_bord():
     db.session.add(google)
     db.session.add(firefox)
     db.session.add(amazon)
+
+    db.session.commit()
+
+    # Creation stage
+
+    expert = PFE(id=1, supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
+                 year=2018, duration=4,
+                 description='developpement android', title='yoyo')
+    ingenieur = PFE(id=2, supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
+                    year=2019, duration=6,
+                    description='python', title='popo')
+    decouverte = PFE(id=3, supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
+                     year=1978, duration=2,
+                     description='feuuuu', title='gogo')
+    ouvrier = PFE(id=4, supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
+                  duration=1, description='usine',
+                  title='koko')
+
+    db.session.add(expert)
+    db.session.add(ingenieur)
+    db.session.add(decouverte)
+    db.session.add(ouvrier)
 
     db.session.commit()
 
