@@ -45,12 +45,10 @@
 
 
             <input type="text" placeholder="Promotion" list="promotion" id="input_promotion">
-                <datalist id="promotion">
-                    <option value="2018-2019">2018-2019</option>
-                    <option value="2019-2020">2019-2020</option>
-                    <option value="2020-2021">2020-2021</option>
-                    <option value="2021-2022">2021-2022</option>
-                    </datalist>
+
+
+
+
 
             </ui>
 
@@ -58,6 +56,7 @@
 
                 <input type="text" placeholder="Stage" list="stage" id="input_stage">
                 <datalist id="stage">
+
                     <option value="Google">Google</option>
                     <option value="Alstom">Alstom</option>
 
@@ -103,52 +102,84 @@
 
 
 <ul class="everyone">
+
+    {% for person in people %}
+
     <li class="someone_li" >
         <span>
 
             <ul class="someone">
 
                 <li>
-                   <span> Nom:  Grandjacquot</span>
+                   <span> Nom: {{ person.last_name }}</span>
                 </li>
                 <li>
-                    <span>Prenom:  Alexis</span>
+                    <span>Prenom: {{ person.first_name }}</span>
                 </li>
 
                 <li>
-                   <span> Promotion: <span id="promotion">2018-2019</span></span>
+                   <span> Promotion: <span id="promotion">{{ person.promotion }}</span></span>
                 </li>
 
                 <li>
-                    <span>email: alexisgjt@gmail.com</span>
-                </li>
-                <li>
-                   <span> </sapn> Entreprise: <span id="entreprise">Coca Cola</span></span>
+                    <span>email: {{person.email}}</span>
                 </li>
 
-                <li>
-                  <span> <span> Description:  Ceci est une description</span></span>
-                </li>
+                    {% for position in positions %}
+                        {% if position.employee.id==person.id %}
 
-                <li>
-                   <span>   Position: <span id="position">Vendeur de cigarette</span></span>
-                </li>
+                           <li>
+                            <ul>
+
 
 
                 <li>
-                    <span> TAF 2A: <span id="taf_2a">DCL</span></span>
+                   <span>   Position: <span id="position">{{position.organisation_name.entreprise }}</span></span>
                 </li>
+
+                            <li>
+                   <span>   Titre: <span>{{position.title }}</span></span>
+                </li>
+
+
+                        <li>
+                   <span>   Date: <span>{{position.entry_date }}</span></span>
+                </li>
+
+                    </ul>
+</li>
+
+                        {% endif %}
+                        {% endfor %}
+
+                    {% for taf in person.tafs %}
                 <li>
-                  <span>  TAF 3A: <span id="taf_3a">IDL</span></span>
+                    <span> TAF: <span id="taf">{{  taf.name}}</span></span>
                 </li>
+                        {% endfor %}
+
+                    {% for pfe in pfes %}
+                        {% if pfe.student.id == person.id %}
+                            <li>
+                            <ul>
                 <li>
-                    <span> Stage: <span id="stage">Alstom</span> </span>
+                    <span> Stage: <span id="stage">{{  pfe.title}}</span> </span>
                 </li>
+
+                        <li>
+                        <span> Description du stage: {{ pfe.description }}</span>
+                        </li>
+                            </ul>
+                            </li>
+
+                        {% endif %}
+                        {% endfor %}
 
 
             </ul>
         </span>
     </li>
+    {% endfor %}
 </ul>
 
 
