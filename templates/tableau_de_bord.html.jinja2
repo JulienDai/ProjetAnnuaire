@@ -8,8 +8,10 @@
 </head>
 <body>
 <div class="haut">
+    <h2> Tableau de Bord</h2>
+    <span>Nombre totale d'entreprise: {{ nombre_organisations }}<br>Nombre de personne: {{ nombre_personnes }}  </span>
 
-<h2> Tableau de Bord</h2>
+
 <a class="profil" href="/oui">
     <img class="profil" src="{{ url_for("static",filename="img/icon.png") }}">
 
@@ -18,6 +20,7 @@
 
 
     <HR class="ligne" WIDTH="700px">
+
 
 
 </div>
@@ -33,11 +36,11 @@
 
             <ui> <input type="text" placeholder="TAF" list="taf" id="input_taf">
                 <datalist id="taf">
-                <option value="Objective C">Objective C</option>
-                <option value="C++">C++</option>
-                <option value="C#">C#</option>
-                <option value="Cobol">Cobol</option>
+                    {%for taf in tafs%}
+
+                <option value={{ taf.name }}>{{ taf.name }}</option>{%  endfor %}
                     </datalist>
+
 
             </ui>
 
@@ -45,6 +48,16 @@
 
 
             <input type="text" placeholder="Promotion" list="promotion" id="input_promotion">
+
+                <datalist id="promotion">
+
+                    {%for promotion in range(1990,current_year) %}
+
+                <option value={{ promotion }}>{{ promotion }}</option>
+
+                   {%  endfor %}
+                        </datalist>
+
 
 
 
@@ -56,9 +69,11 @@
 
                 <input type="text" placeholder="Stage" list="stage" id="input_stage">
                 <datalist id="stage">
+                    {%  for pfe in pfes %}
 
-                    <option value="Google">Google</option>
-                    <option value="Alstom">Alstom</option>
+                     <option value={{ pfe.organisation.entreprise}}>{{ pfe.organisation.entreprise }}</option>
+
+                    {% endfor %}
 
                     </datalist>
 
@@ -68,8 +83,12 @@
 
                 <input type="text" placeholder="Entreprise" list="entreprise" id="input_entreprise">
                 <datalist id="entreprise">
-                    <option value="Google">Google</option>
-                    <option value="Alstom">Alstom</option>
+
+                    {% for organisation in organisations %}
+
+                    <option value={{ organisation.entreprise }}>{{ organisation.entreprise }}</option>
+
+                    {%  endfor %}
 
                     </datalist>
 
@@ -163,7 +182,7 @@
                             <li>
                             <ul>
                 <li>
-                    <span> Stage: <span id="stage">{{  pfe.title}}</span> </span>
+                    <span> Stage: <span id="stage">{{  pfe.organisation.entreprise}}</span> </span>
                 </li>
 
                         <li>

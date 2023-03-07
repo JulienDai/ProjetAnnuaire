@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template, request
-
+from sqlalchemy import create_engine, select, func
 
 from flask import Flask
 import flask
@@ -8,8 +8,9 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
-## "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
+  ##  "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
+##
 
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -163,7 +164,7 @@ def tableau_de_bord():
     organisations = Organisation.query.all()
     positions = Position.query.all()
     return flask.render_template("tableau_de_bord.html.jinja2", people=people, pfes=pfes, tafs=all_tafs,
-                                 organisations=organisations, positions=positions)
+                                 organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people))
 
 
 
