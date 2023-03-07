@@ -1,4 +1,6 @@
 from datetime import datetime
+from flask import Flask, render_template, request
+
 
 from flask import Flask
 import flask
@@ -17,8 +19,20 @@ db.init_app(app)
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello Julien!'
+def form():
+    return render_template('form.html')
+
+@app.route('/resultat', methods=['POST', 'GET'])
+def hello():
+    clean()
+    result = request.form
+    new_person = Person(first_name=result['first_name'], last_name=result['last_name'])
+    print(result['first_name'])
+    save_object_to_db(new_person)
+
+    people = Person.query.all()
+
+    return render_template("resultat.html", people=people)
 
 
 # @app.route("/clean")
@@ -26,22 +40,39 @@ def clean():
     db.drop_all()
     db.create_all()
     return "Cleaned!"
+
+
+def save_object_to_db(db_object):
+    db.session.add(db_object)
+    db.session.commit()
+
+
+def remove_object_from_db(db_object):
+    db.session.delete(db_object)
+    db.session.commit()
+
+def add_pfe_link_people_and_organisation(student, supervisor, organisation):
+    new_pfe=PFE(supervisor=supervisor, student=student, organisation=organisation)
+    db.session.add(new_pfe)
+    db.session.commit()
+
+
 @app.route('/tableau_de_bord')
 def tableau_de_bord():
     clean()
 
     # Creation Eleve
 
-    alexis = Person(id=1, first_name='Alexis', last_name='Grandjacquot', promotion=2022,
+    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
                     email='alexis', role='student')
-    julien = Person(id=2, first_name='Julien', last_name='Dai', promotion=2023,
+    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
                     email='julien', role='student')
-    johnny = Person(id=3, first_name='Johnny', last_name='Hallyday', promotion=1980,
+    johnny = Person(first_name='Johnny', last_name='Hallyday', promotion=1980,
                     email='johnny', role='teacher')
-    momo = Person(id=4)
-    toto = Person(id=5)
-    nono = Person(id=6)
-    roro = Person(id=7)
+    momo = Person()
+    toto = Person()
+    nono = Person()
+    roro = Person()
 
     db.session.add(alexis)
     db.session.add(julien)
@@ -54,9 +85,9 @@ def tableau_de_bord():
 
     # ajout organisations
 
-    google = Organisation(id=1, entreprise='google')
-    firefox = Organisation(id=2, entreprise='firefox')
-    amazon = Organisation(id=3, entreprise='amazon')
+    google = Organisation(entreprise='google')
+    firefox = Organisation(entreprise='firefox')
+    amazon = Organisation(entreprise='amazon')
 
     db.session.add(google)
     db.session.add(firefox)
@@ -66,16 +97,16 @@ def tableau_de_bord():
 
     # Creation stage
 
-    expert = PFE(id=1, supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
+    expert = PFE(supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
                  year=2018, duration=4,
                  description='developpement android', title='yoyo')
-    ingenieur = PFE(id=2, supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
+    ingenieur = PFE(supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
                     year=2019, duration=6,
                     description='python', title='popo')
-    decouverte = PFE(id=3, supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
+    decouverte = PFE(supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
                      year=1978, duration=2,
                      description='feuuuu', title='gogo')
-    ouvrier = PFE(id=4, supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
+    ouvrier = PFE(supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
                   duration=1, description='usine',
                   title='koko')
 
@@ -88,10 +119,10 @@ def tableau_de_bord():
 
     # ajout positions
 
-    ceo = Position(id=1, entry_date=datetime(2022, 2, 22), title='CEO', employee=alexis, organisation_name=google)
-    stagiaire = Position(id=2, entry_date=datetime(2021, 5, 12), title='stagiaire', employee=julien,
+    ceo = Position(entry_date=datetime(2022, 2, 22), title='CEO', employee=alexis, organisation_name=google)
+    stagiaire = Position(entry_date=datetime(2021, 5, 12), title='stagiaire', employee=julien,
                          organisation_name=amazon)
-    developpeur = Position(id=3, entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny,
+    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny,
                            organisation_name=firefox)
 
     db.session.add(ceo)
@@ -102,10 +133,10 @@ def tableau_de_bord():
 
     # ajout tafs
 
-    dcl = TAF(id=1, name='dcl')
-    tee = TAF(id=2, name='tee')
-    demin = TAF(id=3, name='demin')
-    login = TAF(id=4, name='login')
+    dcl = TAF(name='dcl')
+    tee = TAF(name='tee')
+    demin = TAF(name='demin')
+    login = TAF(name='login')
 
     db.session.add(dcl)
     db.session.add(tee)
@@ -143,9 +174,9 @@ def test_base():
 
     # Creation Eleve
 
-    alexis = Person(id=1, first_name='Alexis', last_name='Grandjacquot', promotion=2022,
+    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
                      email='alexis', role='student')
-    julien = Person(id=2, first_name='Julien', last_name='Dai', promotion=2023,
+    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
                      email='julien', role='student')
     johnny = Person(id=3, first_name='Johnny', last_name='Hallyday', promotion=1980,
                      email='johnny', role='teacher')
@@ -163,15 +194,31 @@ def test_base():
     db.session.add(roro)
     db.session.commit()
 
+    # ajout organisations
+
+    google = Organisation(entreprise='google')
+    firefox = Organisation(entreprise='firefox')
+    amazon = Organisation(entreprise='amazon')
+
+    db.session.add(google)
+    db.session.add(firefox)
+    db.session.add(amazon)
+
+    db.session.commit()
+
     # Creation stage
 
-    expert = PFE(id=1, supervisor=momo, student = alexis, supervisor_email='momo', year=2018, duration=4,
-                        description='developpement android', title='yoyo')
-    ingenieur = PFE(id=2, supervisor=toto, student= julien, supervisor_email='toto', year=2019, duration=6,
-                           description='python', title='popo')
-    decouverte = PFE(id=3, supervisor=nono, student=johnny, supervisor_email='nono', year=1978, duration=2,
-                            description='feuuuu', title='gogo')
-    ouvrier = PFE(id=4, supervisor=roro, student = alexis, supervisor_email='roro', year=2025, duration=1, description='usine',
+    expert = PFE(supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
+                 year=2018, duration=4,
+                 description='developpement android', title='yoyo')
+    ingenieur = PFE(supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
+                    year=2019, duration=6,
+                    description='python', title='popo')
+    decouverte = PFE(supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
+                     year=1978, duration=2,
+                     description='feuuuu', title='gogo')
+    ouvrier = PFE(supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
+                  duration=1, description='usine',
                   title='koko')
 
     db.session.add(expert)
@@ -181,23 +228,11 @@ def test_base():
 
     db.session.commit()
 
-    # ajout organisations
-
-    google = Organisation(id=1, entreprise='google')
-    firefox = Organisation(id=2, entreprise='firefox')
-    amazon = Organisation(id=3, entreprise='amazon')
-
-    db.session.add(google)
-    db.session.add(firefox)
-    db.session.add(amazon)
-
-    db.session.commit()
-
     # ajout positions
 
-    ceo = Position(id=1, entry_date=datetime(2022, 2, 22), title ='CEO', employee=alexis, organisation_name=google)
-    stagiaire = Position(id=2, entry_date=datetime(2021, 5, 12), title ='stagiaire', employee=julien, organisation_name=amazon)
-    developpeur = Position(id=3, entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny, organisation_name=firefox)
+    ceo = Position(entry_date=datetime(2022, 2, 22), title ='CEO', employee=alexis, organisation_name=google)
+    stagiaire = Position(entry_date=datetime(2021, 5, 12), title ='stagiaire', employee=julien, organisation_name=amazon)
+    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny, organisation_name=firefox)
 
     db.session.add(ceo)
     db.session.add(stagiaire)
@@ -208,10 +243,10 @@ def test_base():
 
     #ajout tafs
 
-    dcl = TAF(id=1, name='dcl')
-    tee = TAF(id=2, name='tee')
-    demin = TAF(id = 3, name='demin')
-    login = TAF(id=4, name='login')
+    dcl = TAF(name='dcl')
+    tee = TAF(name='tee')
+    demin = TAF(name='demin')
+    login = TAF(name='login')
 
     db.session.add(dcl)
     db.session.add(tee)
