@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/informations_personnelles.css") }}">
+</head>
+<body>
+
+    <h1> Information de Nom Prénom</h1>
+
+    <br><br>
+    <form action="resultat_informations_personnelles" method="post" action="/store_info">
+       <select name="Etat Civil" id="etat_civil">
+    <option value="">--Please choose an option--</option>
+    <option value="monsieur">Monsieur</option>
+    <option value="madame">Madame</option>
+       </select>
+
+    <div>
+        <select name="taf2" id="taf2" >
+    <option value="">--Votre Taf de deuxième année-- </option>
+    <option value="Ouii">ouii</option>
+    <option value="nooon">noon</option>
+            </select>
+
+
+        <select name="taf1" id="taf1" >
+    <option value="">--Votre Taf de troisième année-- </option>
+    <option value="Ouii2">ouii2</option>
+    <option value="nooon2">noon2</option>
+            </select>
+
+
+
+
+
+    </div>
+
+        <h3> Information sur le stage</h3>
+    <div class="stage" id="stage">
+        <input type="text" class="titre_sujet" id="titre_sujet" name="titre_sujet" placeholder="Titre du sujet de stage " value="">
+
+
+
+        <input type="text" class="organisation" id="organisation" name="organisation" placeholder="Organisation" value="">
+
+        <label for="date_stage">Début du Stage:</label>
+        <input type="date" class="date_stage" id="date_stage" name="date_stage" placeholder="Date du stage" value="">
+
+        <input type="text" class="nom_tuteur" id="nom_tuteur" name="nom_tuteur" placeholder="Nom du Tuteur" value="">
+
+
+        <input type="text" class="prenom_tuteur" id="prenom_tuteur" name="prenom_tuteur" placeholder="Prénom du tuteur" value="">
+
+        <input type="text" class="email_tuteur" id="email_tuteur" name="email_tuteur" placeholder="email du tuteur" value="">
+
+
+        <label for="description">Description du stage:</label>
+        <textarea class="description" id="description" name="description_projet" placeholder="Description du sujet de stage" value="">
+        </textarea>
+
+
+    </div>
+        <h3>Ajout d'une position</h3>
+
+        <div class="position" id="position">
+        <label for="add_position">Cochez si vous voulez ajouter une nouvelle position:</label>
+            <input type="checkbox" id="add_position" class="add_position">
+
+            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprisqe">
+
+            <label for="date_debut_position">Date de début de cette position:</label>
+            <input type="date" id="date_debut_position" name="date_debut_position" placeholder="Date d'entrée">
+
+            <input type="text" id="titre_position" name="titre_position" placeholder="titre position">
+
+
+
+        </div>
+
+
+        <button class="submit" type="submit"> Envoyer le Formulaire </button>
+
+
+    </form>
+
+</body>
+</html>

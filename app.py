@@ -43,6 +43,18 @@ def clean():
     return "Cleaned!"
 
 
+@app.route('/informations_personnelles')
+def informations_personnelles():
+   # id_connecte = request.args.get('id')
+   # people, pfes, all_tafs, organisations, positions = action_base_donnee()
+
+
+  ## db.session.query(Person.query(id=id_connecte).all())
+
+    return flask.render_template("informations_personnelles.html.jinja2")
+
+
+
 def save_object_to_db(db_object):
     db.session.add(db_object)
     db.session.commit()
@@ -58,22 +70,25 @@ def add_pfe_link_people_and_organisation(student, supervisor, organisation):
     db.session.commit()
 
 
-@app.route('/tableau_de_bord')
-def tableau_de_bord():
+
+
+
+
+def action_base_donnee():
     clean()
 
     # Creation Eleve
 
-    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
+    alexis = Person(id=1,first_name='Alexis', last_name='Grandjacquot', promotion=2022,
                     email='alexis', role='student')
-    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
+    julien = Person(id=2,first_name='Julien', last_name='Dai', promotion=2023,
                     email='julien', role='student')
-    johnny = Person(first_name='Johnny', last_name='Hallyday', promotion=1980,
+    johnny = Person(id=3,first_name='Johnny', last_name='Hallyday', promotion=1980,
                     email='johnny', role='teacher')
-    momo = Person()
-    toto = Person()
-    nono = Person()
-    roro = Person()
+    momo = Person(id=5)
+    toto = Person(id=6)
+    nono = Person(id=7)
+    roro = Person(id=8)
 
     db.session.add(alexis)
     db.session.add(julien)
@@ -154,8 +169,6 @@ def tableau_de_bord():
     julien.tafs.append(tee)
     johnny.tafs.append(login)
 
-
-
     db.session.commit()
 
     people = Person.query.all()
@@ -163,8 +176,19 @@ def tableau_de_bord():
     all_tafs = TAF.query.all()
     organisations = Organisation.query.all()
     positions = Position.query.all()
+    return people, pfes, all_tafs, organisations, positions
+
+
+@app.route('/tableau_de_bord',methods=['GET','POST'])
+def tableau_de_bord():
+    id_connecte = request.args.get('id')
+
+
+    people,pfes,all_tafs,organisations, positions=action_base_donnee()
+
+
     return flask.render_template("tableau_de_bord.html.jinja2", people=people, pfes=pfes, tafs=all_tafs,
-                                 organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people))
+                                 organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people),id_connecte=str(id_connecte))
 
 
 
