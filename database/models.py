@@ -1,9 +1,13 @@
 from database.database import db
 
 
-junction_table=db.Table('etudes',
+junction_table_etudes=db.Table('etudes',
                         db.Column('person_id', db.Integer, db.ForeignKey('person.id')),
                         db.Column('taf_id', db.Integer, db.ForeignKey('taf.id')))
+
+junction_table_positions=db.Table('position_organisation',
+                                  db.Column('position_id', db.Integer, db.ForeignKey('position.id')),
+                                  db.Column('organisation_id', db.Integer, db.ForeignKey('organisation.id')))
 
 
 class Person(db.Model):
@@ -13,7 +17,7 @@ class Person(db.Model):
     promotion = db.Column(db.Integer)
     role = db.Column(db.String(50))
     email=db.Column(db.String(50))
-    tafs=db.relationship('TAF', backref='people', secondary=junction_table)
+    tafs=db.relationship('TAF', backref='people', secondary=junction_table_etudes)
 
 
 
@@ -25,7 +29,6 @@ class PFE(db.Model):
     supervisor=db.relationship('Person', backref='pfe_supervisor', foreign_keys=[supervisor_id])
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'))
     organisation = db.relationship('Organisation', backref='pfe_organisation')
-    supervisor_email = db.Column(db.String(50))
     year=db.Column(db.Integer)
     duration=db.Column(db.Integer)
     description=db.Column(db.String(50))
@@ -49,9 +52,7 @@ class Position(db.Model):
     title=db.Column(db.String(50))
     employee=db.relationship('Person', backref='positions')
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-    organisation_name = db.relationship('Organisation', backref='positions', lazy=True)
-    organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'))
-
+    organisation = db.relationship('Organisation', backref='positions', secondary=junction_table_positions)
 
 
 
