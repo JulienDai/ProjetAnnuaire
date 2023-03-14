@@ -130,6 +130,9 @@
 
              <button  id="button_plus" class="button_plus_moins" onclick="vue_plus(event.target.parentElement.parentElement)" >+</button>
             <button id="button_moins" class="button_plus_moins" onclick="vue_moins(event.target.parentElement.parentElement)">-</button>
+            {% if(admin=='admin') %}
+                <a id="modifier" class="modifier" href="/informations_personnelles?id={{ id_connecte}}"> Modifier</a>
+            {% endif %}
             <ul class="someone">
 
 

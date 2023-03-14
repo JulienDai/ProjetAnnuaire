@@ -8,8 +8,8 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
-##    "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db"
+                                     ##   "C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
 
 
 
@@ -46,115 +46,15 @@ def clean():
 
 @app.route('/informations_personnelles',methods=['GET'])
 def informations_personnelles():
-    clean()
-
-    # Creation Eleve
-
-    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
-                     email='alexis', role='student')
-    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
-                     email='julien', role='student')
-    johnny = Person(id=3, first_name='Johnny', last_name='Hallyday', promotion=1980,
-                     email='johnny', role='teacher')
-    momo=Person(id=4)
-    toto=Person(id=5)
-    nono=Person(id=6)
-    roro=Person(id=7)
-
-    db.session.add(alexis)
-    db.session.add(julien)
-    db.session.add(johnny)
-    db.session.add(momo)
-    db.session.add(toto)
-    db.session.add(nono)
-    db.session.add(roro)
-    db.session.commit()
-
-    # ajout organisations
-
-    google = Organisation(entreprise='google')
-    firefox = Organisation(entreprise='firefox')
-    amazon = Organisation(entreprise='amazon')
-
-    db.session.add(google)
-    db.session.add(firefox)
-    db.session.add(amazon)
-
-    db.session.commit()
-
-    # Creation stage
-
-    expert = PFE(supervisor=momo, student=alexis, organisation=firefox,
-                 year=2018, duration=4,
-                 description='developpement android', title='yoyo')
-    ingenieur = PFE(supervisor=toto, student=julien, organisation=google,
-                    year=2019, duration=6,
-                    description='python', title='popo')
-    decouverte = PFE(supervisor=nono, student=johnny, organisation=amazon,
-                     year=1978, duration=2,
-                     description='feuuuu', title='gogo')
-    ouvrier = PFE(supervisor=roro, student=alexis, year=2025, organisation=google,
-                  duration=1, description='usine',
-                  title='koko')
-
-    db.session.add(expert)
-    db.session.add(ingenieur)
-    db.session.add(decouverte)
-    db.session.add(ouvrier)
-
-    db.session.commit()
-
-    # ajout positions
-
-    ceo = Position(entry_date=2022, title ='CEO', employee=alexis)
-    stagiaire = Position(entry_date=2021, title ='stagiaire', employee=julien)
-    developpeur = Position(entry_date=1998, title='fullstack', employee=johnny)
-
-    db.session.add(ceo)
-    db.session.add(stagiaire)
-    db.session.add(developpeur)
-    ceo.organisation.append(google)
-    stagiaire.organisation.append(amazon)
-    stagiaire.organisation.append(firefox)
-
-    db.session.commit()
 
 
-    #ajout tafs
-
-    dcl = TAF(name='dcl')
-    tee = TAF(name='tee')
-    demin = TAF(name='demin')
-    login = TAF(name='login')
-
-    db.session.add(dcl)
-    db.session.add(tee)
-    db.session.add(demin)
-    db.session.add(login)
-
-    db.session.commit()
-
-    # attribution tafs
-
-    alexis.tafs.append(dcl)
-    alexis.tafs.append(demin)
-    julien.tafs.append(dcl)
-    julien.tafs.append(tee)
-    johnny.tafs.append(login)
-
-    db.session.commit()
-
-    people=Person.query.all()
-    pfes=PFE.query.all()
-    all_tafs=TAF.query.all()
-    organisations=Organisation.query.all()
-    positions=Position.query.all()
 
 
     id_connecte = request.args.get('id')
+
     person_connect=get_person_by_id(id_connecte)
     print(person_connect, id_connecte)
-   # people, pfes, all_tafs, organisations, positions = action_base_donnee()
+    people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
 
    ## db.session.query(Person.query(id=id_connecte).all())
@@ -365,13 +265,14 @@ def action_base_donnee():
 @app.route('/tableau_de_bord',methods=['GET','POST'])
 def tableau_de_bord():
     id_connecte = request.args.get('id')
+    admin=request.args.get('admin')
 
 
     people,pfes,all_tafs,organisations, positions=action_base_donnee()
 
 
     return flask.render_template("tableau_de_bord.html.jinja2", people=people, pfes=pfes, tafs=all_tafs,
-                                 organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people),id_connecte=str(id_connecte))
+                                 organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people),id_connecte=str(id_connecte),admin=admin)
 
 
 
