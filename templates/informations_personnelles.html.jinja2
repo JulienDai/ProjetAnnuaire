@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h1> Information de Nom Prénom </h1>
+    <h1> Information de {{ person.last_name }} {{ person.first_name }} </h1>
     <a href={{  "/tableau_de_bord?id=" +id}}> <img id="logo_maison" src="{{ url_for("static",filename="img/maison.png") }}"> </a>
 
 
