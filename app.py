@@ -46,10 +46,7 @@ def clean():
 @app.route('/informations_personnelles')
 def informations_personnelles():
    # id_connecte = request.args.get('id')
-   # people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
-
-  ## db.session.query(Person.query(id=id_connecte).all())
 
     return flask.render_template("informations_personnelles.html.jinja2")
 

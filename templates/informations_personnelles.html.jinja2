@@ -46,7 +46,10 @@
         <input type="text" class="organisation" id="organisation" name="organisation" placeholder="Organisation" value="">
 
         <label for="date_stage">Début du Stage:</label>
-        <input type="date" class="date_stage" id="date_stage" name="date_stage" placeholder="Date du stage" value="">
+        <input type="number" class="date_stage" id="date_stage" name="date_stage" placeholder="Date du stage"  min="1900" max="2099"value="">
+
+        <label for="duree_stage">Durée du Stage en mois </label>
+        <input type="number" class="duree_stage" id="duree_stage" name="duree_stage" min="2" max="4">
 
         <input type="text" class="nom_tuteur" id="nom_tuteur" name="nom_tuteur" placeholder="Nom du Tuteur" value="">
 
@@ -54,6 +57,9 @@
         <input type="text" class="prenom_tuteur" id="prenom_tuteur" name="prenom_tuteur" placeholder="Prénom du tuteur" value="">
 
         <input type="text" class="email_tuteur" id="email_tuteur" name="email_tuteur" placeholder="email du tuteur" value="">
+
+
+
 
 
         <label for="description">Description du stage:</label>
