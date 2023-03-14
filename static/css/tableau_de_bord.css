@@ -71,19 +71,20 @@ h3{
 .someone {
   background: #e1e2e3;
   padding: 20px;
-
-
 }
 
 
 .someone li {
   color: #000000;
   margin: 5px;
+  list-style:none;
 }
 
 .someone_li{
     display: inline-block;
     border: solid;
+    margin-top:5px;
+    margin-right:5px;
 }
 
 .everyone{
