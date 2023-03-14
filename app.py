@@ -64,10 +64,38 @@ def remove_object_from_db(db_object):
     db.session.delete(db_object)
     db.session.commit()
 
-def add_pfe_link_people_and_organisation(student, supervisor, organisation):
-    new_pfe=PFE(supervisor=supervisor, student=student, organisation=organisation)
+def add_pfe_link_people_and_organisation(form):
+    new_pfe=PFE(supervisor=form.supervisor.data, student=form.student.data, organisation=form.organisation.data,
+                year=form.year.data, duration=form.duration.data, description=form.description.data, titl=form.title.data)
     db.session.add(new_pfe)
     db.session.commit()
+
+def add_organisation_to_position(position, organisation, form):
+    new_position=position(employee=form.employee.data, entry_date=form.entry_date.data, title=form.title.data)
+    db.session.add(new_position)
+    position.organisation.append(organisation)
+    db.commit()
+
+
+def add_taf_to_person(person, taf):
+    person.tafs.append(taf)
+    db.commit()
+
+def get_person_id(person_id):
+    return Person.query.filter_by(id=person_id).first()
+
+def modify_person(form):
+    person_id=get_person_id(form.person_id.data)
+
+    remove_object_from_db(Person(id=person_id))
+    new_person=Person(id=person_id, first_name=form.first_name.data, last_name=form.last_name.data,
+                      promotion=form.promotion.data, role=form.role.data, email=form.email.data)
+    
+
+    db.session.add(new_person)
+    db.commit
+
+
 
 
 
@@ -111,18 +139,18 @@ def action_base_donnee():
 
     db.session.commit()
 
-    # Creation stage
+    # Creation PFE
 
-    expert = PFE(supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
+    expert = PFE(supervisor=momo, student=alexis, organisation=firefox,
                  year=2018, duration=4,
                  description='developpement android', title='yoyo')
-    ingenieur = PFE(supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
+    ingenieur = PFE(supervisor=toto, student=julien, organisation=google,
                     year=2019, duration=6,
                     description='python', title='popo')
-    decouverte = PFE(supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
+    decouverte = PFE(supervisor=nono, student=johnny, organisation=amazon,
                      year=1978, duration=2,
                      description='feuuuu', title='gogo')
-    ouvrier = PFE(supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
+    ouvrier = PFE(supervisor=roro, student=alexis, year=2025, organisation=google,
                   duration=1, description='usine',
                   title='koko')
 
@@ -135,15 +163,18 @@ def action_base_donnee():
 
     # ajout positions
 
-    ceo = Position(entry_date=datetime(2022, 2, 22), title='CEO', employee=alexis, organisation_name=google)
-    stagiaire = Position(entry_date=datetime(2021, 5, 12), title='stagiaire', employee=julien,
-                         organisation_name=amazon)
-    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny,
-                           organisation_name=firefox)
+    ceo = Position(entry_date=datetime(2022, 2, 22), title='CEO', employee=alexis)
+    stagiaire = Position(entry_date=datetime(2021, 5, 12), title='stagiaire', employee=julien)
+    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny)
 
     db.session.add(ceo)
     db.session.add(stagiaire)
     db.session.add(developpeur)
+
+    ceo.organisation.append(google)
+    stagiaire.organisation.append(amazon)
+    developpeur.organisation.append(google)
+    developpeur.organisation.append(firefox)
 
     db.session.commit()
 
@@ -233,16 +264,16 @@ def test_base():
 
     # Creation stage
 
-    expert = PFE(supervisor=momo, student=alexis, supervisor_email='momo', organisation=firefox,
+    expert = PFE(supervisor=momo, student=alexis, organisation=firefox,
                  year=2018, duration=4,
                  description='developpement android', title='yoyo')
-    ingenieur = PFE(supervisor=toto, student=julien, supervisor_email='toto', organisation=google,
+    ingenieur = PFE(supervisor=toto, student=julien, organisation=google,
                     year=2019, duration=6,
                     description='python', title='popo')
-    decouverte = PFE(supervisor=nono, student=johnny, supervisor_email='nono', organisation=amazon,
+    decouverte = PFE(supervisor=nono, student=johnny, organisation=amazon,
                      year=1978, duration=2,
                      description='feuuuu', title='gogo')
-    ouvrier = PFE(supervisor=roro, student=alexis, supervisor_email='roro', year=2025, organisation=google,
+    ouvrier = PFE(supervisor=roro, student=alexis, year=2025, organisation=google,
                   duration=1, description='usine',
                   title='koko')
 
@@ -255,13 +286,16 @@ def test_base():
 
     # ajout positions
 
-    ceo = Position(entry_date=datetime(2022, 2, 22), title ='CEO', employee=alexis, organisation_name=google)
-    stagiaire = Position(entry_date=datetime(2021, 5, 12), title ='stagiaire', employee=julien, organisation_name=amazon)
-    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny, organisation_name=firefox)
+    ceo = Position(entry_date=datetime(2022, 2, 22), title ='CEO', employee=alexis)
+    stagiaire = Position(entry_date=datetime(2021, 5, 12), title ='stagiaire', employee=julien)
+    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny)
 
     db.session.add(ceo)
     db.session.add(stagiaire)
     db.session.add(developpeur)
+    ceo.organisation.append(google)
+    stagiaire.organisation.append(amazon)
+    stagiaire.organisation.append(firefox)
 
     db.session.commit()
 

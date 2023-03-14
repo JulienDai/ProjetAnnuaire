@@ -152,10 +152,11 @@
 
 
 
+                                {% for organisation in position.organisation %}
                 <li>
-                   <span>   Position: <span id="position">{{position.organisation_name.entreprise }}</span></span>
+                   <span>   Position: <span id="position">{{organisation.entreprise }}</span></span>
                 </li>
-
+                                {% endfor %}
                             <li>
                    <span>   Titre: <span>{{position.title }}</span></span>
                 </li>
