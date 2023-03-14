@@ -77,7 +77,6 @@ h3{
 
 
 .someone li {
-  background: #b9c7ea;
   color: #000000;
   margin: 5px;
 }
@@ -90,6 +89,18 @@ h3{
 .everyone{
     display: inline;
     padding:0;
+
+}
+.button_plus_moins{
+    width:100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+
+
+
+    border-radius: 0;
+
 }
 
 

@@ -3,6 +3,80 @@ let filtre_stage=[]
 let filtre_promotion=[]
 let filtre_taf=[]
 
+//alumni doit être l'element html de classe someone_li
+function vue_moins(alumni){
+
+      const ul= document.querySelector(".everyone");
+
+      ul.style.removeProperty("display")
+        ul.style.removeProperty("justifyContent")
+    alumni.style.removeProperty("textAlign")
+
+
+
+
+
+        const button_moins=alumni.querySelector("#button_moins");
+        const button_plus=alumni.querySelector("#button_plus");
+
+        button_moins.style.display='none';
+        button_plus.style.display='block';
+
+
+
+        reset_affichage();
+        const toshow=alumni.querySelector("#to_show");
+        console.log(toshow);
+        toshow.style.display="none";
+        const set_width=alumni.getElementsByClassName("someone")[0];
+        set_width.style.width="200px";
+
+}
+//alumni doit être l'element html de classe someone_li
+function vue_plus(alumni){
+
+    console.log(alumni)
+
+    supress_every_element_affichage()
+    const button_moins=alumni.querySelector("#button_moins");
+    const button_plus=alumni.querySelector("#button_plus");
+    button_moins.style.display='block';
+    button_plus.style.display='none';
+
+
+    const ul= document.querySelector(".everyone");
+    ul.style.display="flex";
+    ul.style.justifyContent="center"
+
+    alumni.style.textAlign="center";
+
+    alumni.style.display='inline-block'
+
+    const toshow=alumni.querySelector("#to_show");
+    toshow.style.display="block";
+     const set_width=alumni.getElementsByClassName("someone")[0];
+        set_width.style.width="auto";
+
+}
+
+
+
+console.log("yeppa");
+
+window.addEventListener('DOMContentLoaded', function() {
+
+    let alumnis = document.getElementsByClassName("someone_li")
+    console.log(alumnis)
+
+    for (let i = 0; i < alumnis.length; i++) {
+        console.log("vu_moins")
+        vue_moins(alumnis[i]);
+
+    }
+});
+
+
+
 
 function delete_element(sender){
 
@@ -32,13 +106,28 @@ function delete_element(sender){
 }
 
 function reset_affichage(){
+      const ul= document.querySelector(".everyone");
 
+      ul.style.removeProperty("display")
+        ul.style.removeProperty("justifyContent")
+    let alumnis= document.getElementsByClassName("someone_li")
+    for (let i = 0; i < alumnis.length; i++){
+        alumnis[i].style.removeProperty("textAlign")
+
+        alumnis[i].style.display="inline-block";
+
+    }
+    filter_Alumni()
+}
+
+function supress_every_element_affichage(){
     let alumnis= document.getElementsByClassName("someone_li")
     for (let i = 0; i < alumnis.length; i++){
 
-        alumnis[i].style.display="inline-block";
+        alumnis[i].style.display="none";
     }
-    filter_Alumni()
+
+
 }
 
 
