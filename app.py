@@ -276,8 +276,11 @@ def tableau_de_bord():
                                  organisations=organisations, positions=positions,current_year=datetime.now().year,nombre_organisations=len(organisations),nombre_personnes=len(people),id_connecte=str(id_connecte),admin=admin)
 
 
+@app.route('/modification_taf_organisation',methods=['GET','POST'])
+def modification_taf_organisation():
+    people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
-
+    return flask.render_template("modification_taft_organisation.html.jinja2",tafs=all_tafs)
 
 
 
