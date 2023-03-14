@@ -21,8 +21,8 @@
     {% endif %}
 
     <br><br>
-    <form action="resultat_informations_personnelles" method="post" action="/store_info">
-        <select name="Etat Civil" id="etat_civil">
+    <form action={{ "resultat_informations_personnelles?id="+id }} method="POST" >
+        <select name="etat_civil" id="etat_civil">
     <option value="">--Please choose an option--</option>
     <option value="monsieur">Monsieur</option>
     <option value="madame">Madame</option>
@@ -32,7 +32,7 @@
         <input type="number" class="promotion" id="promotion" name="promotion" placeholder="promotion" value="">
 
 
-        <select name="Role" id="role">
+        <select name="role" id="role">
             <option value="">--Pleease choose an option</option>
             <option value="student">Elève</option>
             <option value="teacher">Professeur</option>
@@ -40,14 +40,14 @@
         </select>
 
     <div>
-        <select name="taf2" id="taf2" >
+        <select name="taf1" id="taf1" >
     <option value="">--Votre Taf de deuxième année-- </option>
     <option value="Ouii">ouii</option>
     <option value="nooon">noon</option>
-            </select>
+        </select>
 
 
-        <select name="taf1" id="taf1" >
+        <select name="taf2" id="taf2" >
     <option value="">--Votre Taf de troisième année-- </option>
     <option value="Ouii2">ouii2</option>
     <option value="nooon2">noon2</option>
@@ -85,8 +85,7 @@
 
 
         <label for="description">Description du stage:</label>
-        <textarea class="description" id="description" name="description_projet" placeholder="Description du sujet de stage" value="">
-        </textarea>
+        <textarea class="description" id="description" name="description_projet" placeholder="Description du sujet de stage" value=""></textarea>
 
 
     </div>

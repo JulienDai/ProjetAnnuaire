@@ -24,6 +24,7 @@ def form():
     clean()
     return render_template('form.html')
 
+"""
 @app.route('/resultat', methods=['POST', 'GET'])
 def hello():
     clean()
@@ -35,7 +36,7 @@ def hello():
     people = Person.query.all()
 
     return render_template("resultat.html.jinja2", people=people)
-
+"""
 
 @app.route("/clean")
 def clean():
@@ -54,7 +55,6 @@ def informations_personnelles():
     admin=request.args.get('admin')
 
     person_connect=get_person_by_id(id_connecte)
-    print(person_connect, id_connecte)
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
 
@@ -63,16 +63,32 @@ def informations_personnelles():
     return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect,admin=admin)
 
 
-@app.route('/resultat_informations_personnelles', methods=['POST'])
-def test():
-    return('oui')
+@app.route('/resultat_informations_personnelles', methods=['POST','GET'])
+def store():
+    result = request.form
+    promotion=result['promotion']
+    etat_civil = result['etat_civil']
+    email = result['email']
+    role= result['role']
+    taf1=get_taf_by_name('tee')
+    taf2=get_taf_by_name('dcl')
+    id_connecte = request.args.get('id')
+    person_connect = get_person_by_id(id_connecte)
+    modify_person(id_connecte, etat_civil, email, promotion, role, taf1, taf2)
+
+    people = Person.query.all()
+    return flask.render_template("resultat_informations_personnelles.html.jinja2", people=people)
 
 
 def save_object_to_db(db_object):
     db.session.add(db_object)
     db.session.commit()
 
-
+def get_taf_by_name(taf_name):
+    tafs = TAF.query.all()
+    for taf in tafs:
+        if taf.name==taf_name:
+            return(taf)
 def get_person_by_email(email_personne, nom_personne, prenom_personne):
     people = Person.query.all()
     for person in people:
@@ -102,7 +118,7 @@ def add_pfe_link_people_and_organisation(nom_tuteur, prenom_tuteur, email_tuteur
 def creer_organisation(entreprise_name):
     new_organisation = Organisation(entreprise_name)
     db.session.add(new_organisation)
-    db.commit()
+    db.session.commit()
 
 def get_organisation_by_name(entreprise_name):
     organisations=Organisation.query.all()
@@ -131,7 +147,6 @@ def get_person_by_id(person_id):
     people = Person.query.all()
     for person in people:
         if person.id == int(person_id):
-            print(person)
             return person
 
 def modify_person(person_id, etat_civil, email, promotion, role, taf1, taf2):
@@ -147,11 +162,15 @@ def modify_person(person_id, etat_civil, email, promotion, role, taf1, taf2):
     new_person.tafs.append(taf1)
     new_person.tafs.append(taf2)
 
-    db.commit
+    db.session.commit()
 
-def add_person(first_name, last_name):
-    new_person=Person(first_name=first_name, last_name=last_name)
+def add_person(first_name, last_name, promotion, etat_civil, email, role, taf1, taf2):
+    new_person=Person(first_name=first_name, last_name=last_name, promotion=promotion, email=email, role=role,
+                      etat_civil=etat_civil)
     db.seession.add(new_person)
+    new_person.tafs.append(taf1)
+    new_person.tafs.append(taf2)
+    db.session.add(new_person)
     db.commit
 
 
