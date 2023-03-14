@@ -49,7 +49,7 @@ class TAF(db.Model):
 
 class Position(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    entry_date=db.Column(db.DateTime)
+    entry_date=db.Column(db.Integer)
     title=db.Column(db.String(50))
     employee=db.relationship('Person', backref='positions')
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))

@@ -7,10 +7,10 @@
 </head>
 <body>
 
-    <h1> Information de Nom Prénom</h1>
+    <h1> Information de {{ person.first_name }} {{ person.last_name }}</h1>
 
     <br><br>
-    <form action="resultat_informations_personnelles" method="post" action="/store_info">
+    <form action="resultat_informations_personnelles" method="post" >
         <select name="Etat Civil" id="etat_civil">
     <option value="">--Please choose an option--</option>
     <option value="monsieur">Monsieur</option>
@@ -85,10 +85,9 @@
             <input type="date" id="date_debut_position" name="date_debut_position" placeholder="Date d'entrée">
 
             <input type="text" id="titre_position" name="titre_position" placeholder="titre position">
-
-
-
         </div>
+
+
 
 
         <button class="submit" type="submit"> Envoyer le Formulaire </button>

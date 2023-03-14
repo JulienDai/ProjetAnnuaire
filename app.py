@@ -19,8 +19,9 @@ app.config["SECRET_KEY"] = "secret_key1234"
 db.init_app(app)
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def form():
+    clean()
     return render_template('form.html')
 
 @app.route('/resultat', methods=['POST', 'GET'])
@@ -29,34 +30,142 @@ def hello():
     result = request.form
     new_person = Person(first_name=result['first_name'], last_name=result['last_name'])
     print(result['first_name'])
-    save_object_to_db(new_person)
-
+    db.session.add(new_person)
+    db.session.commit()
     people = Person.query.all()
 
-    return render_template("resultat.html", people=people)
+    return render_template("resultat.html.jinja2", people=people)
 
 
-# @app.route("/clean")
+@app.route("/clean")
 def clean():
     db.drop_all()
     db.create_all()
     return "Cleaned!"
 
 
-@app.route('/informations_personnelles')
+@app.route('/informations_personnelles',methods=['GET'])
 def informations_personnelles():
-   # id_connecte = request.args.get('id')
+    clean()
+
+    # Creation Eleve
+
+    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
+                     email='alexis', role='student')
+    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
+                     email='julien', role='student')
+    johnny = Person(id=3, first_name='Johnny', last_name='Hallyday', promotion=1980,
+                     email='johnny', role='teacher')
+    momo=Person(id=4)
+    toto=Person(id=5)
+    nono=Person(id=6)
+    roro=Person(id=7)
+
+    db.session.add(alexis)
+    db.session.add(julien)
+    db.session.add(johnny)
+    db.session.add(momo)
+    db.session.add(toto)
+    db.session.add(nono)
+    db.session.add(roro)
+    db.session.commit()
+
+    # ajout organisations
+
+    google = Organisation(entreprise='google')
+    firefox = Organisation(entreprise='firefox')
+    amazon = Organisation(entreprise='amazon')
+
+    db.session.add(google)
+    db.session.add(firefox)
+    db.session.add(amazon)
+
+    db.session.commit()
+
+    # Creation stage
+
+    expert = PFE(supervisor=momo, student=alexis, organisation=firefox,
+                 year=2018, duration=4,
+                 description='developpement android', title='yoyo')
+    ingenieur = PFE(supervisor=toto, student=julien, organisation=google,
+                    year=2019, duration=6,
+                    description='python', title='popo')
+    decouverte = PFE(supervisor=nono, student=johnny, organisation=amazon,
+                     year=1978, duration=2,
+                     description='feuuuu', title='gogo')
+    ouvrier = PFE(supervisor=roro, student=alexis, year=2025, organisation=google,
+                  duration=1, description='usine',
+                  title='koko')
+
+    db.session.add(expert)
+    db.session.add(ingenieur)
+    db.session.add(decouverte)
+    db.session.add(ouvrier)
+
+    db.session.commit()
+
+    # ajout positions
+
+    ceo = Position(entry_date=2022, title ='CEO', employee=alexis)
+    stagiaire = Position(entry_date=2021, title ='stagiaire', employee=julien)
+    developpeur = Position(entry_date=1998, title='fullstack', employee=johnny)
+
+    db.session.add(ceo)
+    db.session.add(stagiaire)
+    db.session.add(developpeur)
+    ceo.organisation.append(google)
+    stagiaire.organisation.append(amazon)
+    stagiaire.organisation.append(firefox)
+
+    db.session.commit()
+
+
+    #ajout tafs
+
+    dcl = TAF(name='dcl')
+    tee = TAF(name='tee')
+    demin = TAF(name='demin')
+    login = TAF(name='login')
+
+    db.session.add(dcl)
+    db.session.add(tee)
+    db.session.add(demin)
+    db.session.add(login)
+
+    db.session.commit()
+
+    # attribution tafs
+
+    alexis.tafs.append(dcl)
+    alexis.tafs.append(demin)
+    julien.tafs.append(dcl)
+    julien.tafs.append(tee)
+    johnny.tafs.append(login)
+
+    db.session.commit()
+
+    people=Person.query.all()
+    pfes=PFE.query.all()
+    all_tafs=TAF.query.all()
+    organisations=Organisation.query.all()
+    positions=Position.query.all()
+
+
+    id_connecte = request.args.get('id')
+    person_connect=get_person_by_id(id_connecte)
+    print(person_connect, id_connecte)
    # people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
 
-  ## db.session.query(Person.query(id=id_connecte).all())
+   ## db.session.query(Person.query(id=id_connecte).all())
 
-    return flask.render_template("informations_personnelles.html.jinja2")
+    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST'])
 def test():
     return('oui')
+
 
 def save_object_to_db(db_object):
     db.session.add(db_object)
@@ -64,18 +173,21 @@ def save_object_to_db(db_object):
 
 
 def get_person_by_email(email_personne, nom_personne, prenom_personne):
-    people=Person.query.all()
+    people = Person.query.all()
     for person in people:
         if person.email == email_personne:
             return(person)
     new_person=Person(email=email_personne, first_name=prenom_personne, last_name=nom_personne)
 
-    db.session.add(new_person)
-    db.session.commit()
+    save_object_to_db(new_Person)
+
+    return new_person
+
 
 def remove_object_from_db(db_object):
     db.session.delete(db_object)
     db.session.commit()
+
 
 def add_pfe_link_people_and_organisation(nom_tuteur, prenom_tuteur, email_tuteur, organisation, titre_sujet, date_stage,
                                          description, id_eleve):
@@ -90,6 +202,7 @@ def creer_organisation(entreprise_name):
     new_organisation = Organisation(entreprise_name)
     db.session.add(new_organisation)
     db.commit()
+
 def get_organisation_by_name(entreprise_name):
     organisations=Organisation.query.all()
     for organisation in organisations:
@@ -116,8 +229,9 @@ def add_taf_to_person(id_eleve, taf):
 def get_person_by_id(person_id):
     people = Person.query.all()
     for person in people:
-        if person.id==person_id:
-            return(person)
+        if person.id == int(person_id):
+            print(person)
+            return person
 
 def modify_person(person_id, etat_civil, email, promotion, role, taf1, taf2):
     person=get_person_by_id(person_id)
@@ -134,7 +248,12 @@ def modify_person(person_id, etat_civil, email, promotion, role, taf1, taf2):
 
     db.commit
 
+def add_person(first_name, last_name):
+    new_person=Person(first_name=first_name, last_name=last_name)
+    db.seession.add(new_person)
+    db.commit
 
+"""
 def action_base_donnee():
     clean()
 
@@ -196,9 +315,9 @@ def action_base_donnee():
 
     # ajout positions
 
-    ceo = Position(entry_date=datetime(2022, 2, 22), title='CEO', employee=alexis)
-    stagiaire = Position(entry_date=datetime(2021, 5, 12), title='stagiaire', employee=julien)
-    developpeur = Position(entry_date=datetime(1998, 11, 25), title='fullstack', employee=johnny)
+    ceo = Position(entry_date=2022, title='CEO', employee=alexis)
+    stagiaire = Position(entry_date=2021, title='stagiaire', employee=julien)
+    developpeur = Position(entry_date=1998, title='fullstack', employee=johnny)
 
     db.session.add(ceo)
     db.session.add(stagiaire)
@@ -243,10 +362,9 @@ def action_base_donnee():
     return people, pfes, all_tafs, organisations, positions
 
 
-@app.route('/tableau_de_bord',methods=['GET','POST'])
+@app.route('/tableau_de_bord', methods=['GET', 'POST'])
 def tableau_de_bord():
     id_connecte = request.args.get('id')
-
 
     people,pfes,all_tafs,organisations, positions=action_base_donnee()
 
@@ -366,6 +484,6 @@ def test_base():
     return flask.render_template("index.jinja2", people=people, pfes=pfes, tafs=all_tafs,
                                  organisations=organisations, positions=positions)
 
-
+"""
 if __name__ == '__main__':
     app.run()
