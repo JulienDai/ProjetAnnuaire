@@ -51,6 +51,7 @@ def informations_personnelles():
 
 
     id_connecte = request.args.get('id')
+    admin=request.args.get('admin')
 
     person_connect=get_person_by_id(id_connecte)
     print(person_connect, id_connecte)
@@ -59,7 +60,7 @@ def informations_personnelles():
 
    ## db.session.query(Person.query(id=id_connecte).all())
 
-    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect)
+    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect,admin=admin)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST'])

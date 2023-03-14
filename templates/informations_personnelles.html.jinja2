@@ -8,8 +8,17 @@
 <body>
 
     <h1> Information de {{ person.last_name }} {{ person.first_name }} </h1>
-    <a href={{  "/tableau_de_bord?id=" +id}}> <img id="logo_maison" src="{{ url_for("static",filename="img/maison.png") }}"> </a>
+    {% if(admin=='admin') %}
 
+        <a href={{  "/tableau_de_bord?admin=admin" }}> <img id="logo_maison" src="{{ url_for("static",filename="img/maison.png") }}"> </a>
+
+    {% endif %}
+
+    {% if(admin!='admin') %}
+
+
+    <a href={{  "/tableau_de_bord?id=" +id}}> <img id="logo_maison" src="{{ url_for("static",filename="img/maison.png") }}"> </a>
+    {% endif %}
 
     <br><br>
     <form action="resultat_informations_personnelles" method="post" action="/store_info">
