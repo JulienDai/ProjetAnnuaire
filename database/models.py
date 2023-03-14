@@ -17,6 +17,7 @@ class Person(db.Model):
     promotion = db.Column(db.Integer)
     role = db.Column(db.String(50))
     email=db.Column(db.String(50))
+    etat_civil=db.Column(db.String(10))
     tafs=db.relationship('TAF', backref='people', secondary=junction_table_etudes)
 
 

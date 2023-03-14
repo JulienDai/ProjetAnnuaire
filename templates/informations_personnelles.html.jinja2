@@ -11,11 +11,22 @@
 
     <br><br>
     <form action="resultat_informations_personnelles" method="post" action="/store_info">
-       <select name="Etat Civil" id="etat_civil">
+        <select name="Etat Civil" id="etat_civil">
     <option value="">--Please choose an option--</option>
     <option value="monsieur">Monsieur</option>
     <option value="madame">Madame</option>
-       </select>
+        </select>
+
+        <input type="text" class="email" id="email" name="email" placeholder="email" value="">
+        <input type="number" class="promotion" id="promotion" name="promotion" placeholder="promotion" value="">
+
+
+        <select name="Role" id="role">
+            <option value="">--Pleease choose an option</option>
+            <option value="student">Elève</option>
+            <option value="teacher">Professeur</option>
+            <option value="alumni">Alumni</option>
+        </select>
 
     <div>
         <select name="taf2" id="taf2" >
@@ -68,7 +79,7 @@
         <label for="add_position">Cochez si vous voulez ajouter une nouvelle position:</label>
             <input type="checkbox" id="add_position" class="add_position">
 
-            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprisqe">
+            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprise">
 
             <label for="date_debut_position">Date de début de cette position:</label>
             <input type="date" id="date_debut_position" name="date_debut_position" placeholder="Date d'entrée">

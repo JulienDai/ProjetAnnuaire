@@ -8,9 +8,9 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
-  ##  "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
-##
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
+##    "sqlite:///C:\\Users\\alexi\\PycharmProjects\\ProjetAnnuaire\\database\\database.db"
+
 
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -54,52 +54,85 @@ def informations_personnelles():
     return flask.render_template("informations_personnelles.html.jinja2")
 
 
+@app.route('/resultat_informations_personnelles', methods=['POST'])
+def test():
+    return('oui')
 
 def save_object_to_db(db_object):
     db.session.add(db_object)
     db.session.commit()
 
 
+def get_person_by_email(email_personne, nom_personne, prenom_personne):
+    people=Person.query.all()
+    for person in people:
+        if person.email == email_personne:
+            return(person)
+    new_person=Person(email=email_personne, first_name=prenom_personne, last_name=nom_personne)
+
+    db.session.add(new_person)
+    db.session.commit()
+
 def remove_object_from_db(db_object):
     db.session.delete(db_object)
     db.session.commit()
 
-def add_pfe_link_people_and_organisation(form):
-    new_pfe=PFE(supervisor=form.supervisor.data, student=form.student.data, organisation=form.organisation.data,
-                year=form.year.data, duration=form.duration.data, description=form.description.data, titl=form.title.data)
+def add_pfe_link_people_and_organisation(nom_tuteur, prenom_tuteur, email_tuteur, organisation, titre_sujet, date_stage,
+                                         description, id_eleve):
+    tuteur=get_person_by_email(email_tuteur, nom_tuteur, prenom_tuteur)
+    new_pfe=PFE(supervisor=tuteur, organisation=organisation, student=id_eleve,
+                year=date_stage, duration=duree_stage, description=description, title=titre_sujet)
     db.session.add(new_pfe)
     db.session.commit()
 
-def add_organisation_to_position(position, organisation, form):
-    new_position=position(employee=form.employee.data, entry_date=form.entry_date.data, title=form.title.data)
-    db.session.add(new_position)
-    position.organisation.append(organisation)
+
+def creer_organisation(entreprise_name):
+    new_organisation = Organisation(entreprise_name)
+    db.session.add(new_organisation)
     db.commit()
+def get_organisation_by_name(entreprise_name):
+    organisations=Organisation.query.all()
+    for organisation in organisations:
+        if organisation.entreprise==entreprise_name:
+            return(organisation)
+    creer_organisation(entreprise_name)
 
 
-def add_taf_to_person(person, taf):
+def add_organisation_to_position(date_debut_position, nom_entreprise, add_position, titre_position, id_eleve):
+    if add_position:
+        organisation=get_organisation_by_name(nom_entreprise)
+        new_position=position(employee=id_eleve, entry_date=date_debut_position, title=titre_position)
+        db.session.add(new_position)
+        position.organisation.append(organisation)
+        db.commit()
+
+
+def add_taf_to_person(id_eleve, taf):
+    person=get_person_by_id(id_eleve)
     person.tafs.append(taf)
+    db.add(person)
     db.commit()
 
-def get_person_id(person_id):
-    return Person.query.filter_by(id=person_id).first()
+def get_person_by_id(person_id):
+    people = Person.query.all()
+    for person in people:
+        if person.id==person_id:
+            return(person)
 
-def modify_person(form):
-    person_id=get_person_id(form.person_id.data)
+def modify_person(person_id, etat_civil, email, promotion, role, taf1, taf2):
+    person=get_person_by_id(person_id)
+    first_name=person.first_name
+    last_name=person.last_name
 
-    remove_object_from_db(Person(id=person_id))
-    new_person=Person(id=person_id, first_name=form.first_name.data, last_name=form.last_name.data,
-                      promotion=form.promotion.data, role=form.role.data, email=form.email.data)
-    
+    remove_object_from_db(person)
+    new_person=Person(id=person_id, first_name=first_name, last_name=last_name, etat_civil=etat_civil,
+                      promotion=promotion, role=role, email=email)
 
     db.session.add(new_person)
+    new_person.tafs.append(taf1)
+    new_person.tafs.append(taf2)
+
     db.commit
-
-
-
-
-
-
 
 
 def action_base_donnee():
