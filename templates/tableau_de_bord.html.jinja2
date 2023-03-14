@@ -9,7 +9,8 @@
 <body>
 <div class="haut">
     <h2> Tableau de Bord</h2>
-    <span>Nombre totale d'entreprise: {{ nombre_organisations }}<br>Nombre de personne: {{ nombre_personnes }}  </span>
+    <span>Nombre total d'entreprises: {{ nombre_organisations }}<br>Nombre de personnes: {{ nombre_personnes }}  </span>
+
 
 
 <a class="profil" href="/informations_personnelles?id={{ id_connecte}}">
@@ -127,7 +128,10 @@
     <li class="someone_li" >
         <span>
 
+             <button  id="button_plus" class="button_plus_moins" onclick="vue_plus(event.target.parentElement.parentElement)" >+</button>
+            <button id="button_moins" class="button_plus_moins" onclick="vue_moins(event.target.parentElement.parentElement)">-</button>
             <ul class="someone">
+
 
                 <li>
                    <span> Nom: {{ person.last_name }}</span>
@@ -139,6 +143,7 @@
                 <li>
                    <span> Promotion: <span id="promotion">{{ person.promotion }}</span></span>
                 </li>
+                <div id="to_show">
 
                 <li>
                     <span>email: {{person.email}}</span>
@@ -147,12 +152,14 @@
                     {% for position in positions %}
                         {% if position.employee.id==person.id %}
 
-                           <li>
-                            <ul>
+
+                               <HR>
+
 
 
 
                                 {% for organisation in position.organisation %}
+
                 <li>
                    <span>   Position: <span id="position">{{organisation.entreprise }}</span></span>
                 </li>
@@ -166,22 +173,25 @@
                    <span>   Date: <span>{{position.entry_date }}</span></span>
                 </li>
 
-                    </ul>
-</li>
+
+
 
                         {% endif %}
                         {% endfor %}
+                <HR>
 
                     {% for taf in person.tafs %}
                 <li>
-                    <span> TAF: <span id="taf">{{  taf.name}}</span></span>
+                    <span> TAF : <span id="taf">{{  taf.name}}</span></span>
                 </li>
                         {% endfor %}
 
+
                     {% for pfe in pfes %}
                         {% if pfe.student.id == person.id %}
-                            <li>
-                            <ul>
+                            <HR>
+
+
                 <li>
                     <span> Stage: <span id="stage">{{  pfe.organisation.entreprise}}</span> </span>
                 </li>
@@ -189,16 +199,16 @@
                         <li>
                         <span> Description du stage: {{ pfe.description }}</span>
                         </li>
-                            </ul>
+
                             </li>
 
                         {% endif %}
                         {% endfor %}
 
-
+                </div>
             </ul>
         </span>
-    </li>
+
     {% endfor %}
 </ul>
 

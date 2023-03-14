@@ -1,57 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{{ url_for("static",filename="css/informations_personnelles.css") }}">
+
 </head>
-<body>
+
+<boddy>
+
 
     <h1> Information de Nom Prénom </h1>
-    <a href={{  "/tableau_de_bord?id=" +id}}> <img id="logo_maison" src="{{ url_for("static",filename="img/maison.png") }}"> </a>
-
 
     <br><br>
-    <form action="resultat_informations_personnelles" method="post" action="/store_info">
-        <select name="Etat Civil" id="etat_civil">
-    <option value="">--Please choose an option--</option>
-    <option value="monsieur">Monsieur</option>
-    <option value="madame">Madame</option>
-        </select>
+    <form action="admin_creation" method="post">
 
-        <input type="text" class="email" id="email" name="email" placeholder="email" value="">
-        <input type="number" class="promotion" id="promotion" name="promotion" placeholder="promotion" value="">
-
-
-        <select name="Role" id="role">
-            <option value="">--Pleease choose an option</option>
-            <option value="student">Elève</option>
-            <option value="teacher">Professeur</option>
-            <option value="alumni">Alumni</option>
-        </select>
+       </select>
 
     <div>
-        <select name="taf2" id="taf2" >
-    <option value="">--Votre Taf de deuxième année-- </option>
-    <option value="Ouii">ouii</option>
-    <option value="nooon">noon</option>
-            </select>
-
-
-        <select name="taf1" id="taf1" >
-    <option value="">--Votre Taf de troisième année-- </option>
-    <option value="Ouii2">ouii2</option>
-    <option value="nooon2">noon2</option>
-            </select>
-
-
 
 
 
     </div>
 
-        <h3> Information sur le stage</h3>
-    <div class="stage" id="stage">
+        <h3> Créer étudiant</h3>
+
         <input type="text" class="titre_sujet" id="titre_sujet" name="titre_sujet" placeholder="Titre du sujet de stage " value="">
 
 
@@ -87,7 +56,7 @@
         <label for="add_position">Cochez si vous voulez ajouter une nouvelle position:</label>
             <input type="checkbox" id="add_position" class="add_position">
 
-            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprise">
+            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprisqe">
 
             <label for="date_debut_position">Date de début de cette position:</label>
             <input type="date" id="date_debut_position" name="date_debut_position" placeholder="Date d'entrée">
@@ -104,5 +73,10 @@
 
     </form>
 
-</body>
+
+
+</boddy>
+
+
+
 </html>

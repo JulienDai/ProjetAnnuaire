@@ -71,25 +71,37 @@ h3{
 .someone {
   background: #e1e2e3;
   padding: 20px;
-
-
 }
 
 
 .someone li {
-  background: #b9c7ea;
   color: #000000;
   margin: 5px;
+  list-style:none;
 }
 
 .someone_li{
     display: inline-block;
     border: solid;
+    margin-top:5px;
+    margin-right:5px;
 }
 
 .everyone{
     display: inline;
     padding:0;
+
+}
+.button_plus_moins{
+    width:100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+
+
+
+    border-radius: 0;
+
 }
 
 

@@ -19,6 +19,11 @@ app.config["SECRET_KEY"] = "secret_key1234"
 db.init_app(app)
 
 
+@app.route('/identification')
+def identification():
+    return render_template("identification.html.jinja2")
+
+
 @app.route('/')
 def form():
     return render_template('form.html')
@@ -43,15 +48,22 @@ def clean():
     return "Cleaned!"
 
 
-@app.route('/informations_personnelles')
+@app.route('/informations_personnelles',methods=['POST', 'GET'])
 def informations_personnelles():
-   # id_connecte = request.args.get('id')
-   # people, pfes, all_tafs, organisations, positions = action_base_donnee()
+    id_connecte = request.args.get('id')
 
 
-  ## db.session.query(Person.query(id=id_connecte).all())
+    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte)
 
-    return flask.render_template("informations_personnelles.html.jinja2")
+@app.route('/admin/informations_personnelles',methods=['POST', 'GET'])
+def information_personnelles():
+    id_connecte = request.args.get('id')
+@app.route('/admin')
+def admin():
+
+    id_connecte=1
+
+    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST'])

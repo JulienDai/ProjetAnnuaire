@@ -59,3 +59,10 @@ label {
     margin-right: auto;
     margin-left: auto;
 }
+
+#logo_maison{
+    position:absolute;
+    top:5px;
+    right:5px;
+    width:50px;
+}
