@@ -1,0 +1,23 @@
+.modifier{
+    background-color: #4343ea;
+    color:black;
+    border-radius: 5px;
+    border-style: double;
+}
+.supprimer{
+     background-color: #d52727;
+    color:black;
+    border-radius: 5px;
+    border-style: double;
+}
+#tableau_des_tafs{
+    margin-bottom: 40px;
+}
+#tableau_des_organisations{
+    margin-bottom: 40px;
+}
+#enregistrer{
+    display: block;
+    width:100px;
+    margin-left:calc(50% - 50px);
+}

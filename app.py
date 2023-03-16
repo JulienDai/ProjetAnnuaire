@@ -8,7 +8,8 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db" \
+                                        ##"\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\project\\database\\database.db"
 
 ##"sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db"
 
@@ -59,7 +60,7 @@ def informations_personnelles():
 
    ## db.session.query(Person.query(id=id_connecte).all())
 
-    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect,admin=admin)
+    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect,admin=admin,tafs=all_tafs)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST','GET'])
@@ -298,7 +299,7 @@ def tableau_de_bord():
 def modification_taf_organisation():
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
-    return flask.render_template("modification_taft_organisation.html.jinja2",tafs=all_tafs)
+    return flask.render_template("modification_taft_organisation.html.jinja2",tafs=all_tafs,organisations=organisations)
 
 
 

@@ -1,34 +1,81 @@
 <html>
 <head>
-
+<link rel="stylesheet" href="{{ url_for("static",filename="css/modification_taft_organisation.css") }}">
 </head>
 <body>
 
-<table id="Tableau des Tafs">
+<h1> Modification des Organisations et des TAF</h1>
+
+
+<form action="/modification_taf_organisation/resultat" method="post">
+
+<table id="tableau_des_tafs">
   <thead>
     <tr>
-      <th>Titre de la colonne 1</th>
-      <th>Titre de la colonne 2</th>
-      <th>Titre de la colonne 3</th>
+      <th>Nom de la Taf</th>
+      <th>Responsable de Taf</th>
+      <th>Description</th>
+        <th>Supprimer/ modifier</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Ligne 1, Colonne 1</td>
-      <td>Ligne 1, Colonne 2</td>
-      <td>Ligne 1, Colonne 3</td>
+      {% for taf in tafs %}
+    <tr class="taf">
+
+
+      <td>
+          <input type="text" id="name" name="{{ taf.name }}" value="{{ taf.name }}">
+
+      </td>
+      <td>
+          <input type="text" id="responsable" name="{{ taf.name+"_responsable" }}" value="{{ taf.responsable }}">
+      </td>
+      <td>
+          <input type="text" id="description" name="{{ taf.name+"_description" }}" value="{{ taf.description }}">
+      </td>
+        <td> <button type="button" onclick="edit_one_taf_or_organisation(event.target.parentElement.parentElement)" class="modifier">Modifier</button>
+            <button onclick="supprimer_taf_ou_organisation(event.target.parentElement.parentElement)" type="button" class="supprimer" >Supprimer</button></td>
     </tr>
-    <tr>
-      <td>Ligne 2, Colonne 1</td>
-      <td>Ligne 2, Colonne 2</td>
-      <td>Ligne 2, Colonne 3</td>
-    </tr>
-    <tr>
-      <td>Ligne 3, Colonne 1</td>
-      <td>Ligne 3, Colonne 2</td>
-      <td>Ligne 3, Colonne 3</td>
-    </tr>
+  {% endfor %}
+
   </tbody>
 </table>
+
+
+
+<table id="tableau_des_organisations">
+  <thead>
+    <tr>
+      <th>Nom de l'Organisation</th>
+        <th>Supprimer/ modifier</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      {% for organisation in organisations %}
+    <tr class="organisation">
+
+
+      <td><input type="text" id="entreprise" name="{{ organisation}}" value="{{ organisation.entreprise }}">
+      </td>
+
+        <td> <button type="button" onclick="edit_one_taf_or_organisation(event.target.parentElement.parentElement)" class="modifier">Modifier</button>
+            <button type="button" onclick="supprimer_taf_ou_organisation(event.target.parentElement.parentElement)" class="supprimer">Supprimer</button></td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+<button type="submit" id="enregistrer"> Enregistrer </button>
+
+
+</form>
+
 </body>
 </html>
+
+     <script  src="/static/js/modification_taft_organisation.js"></script>
