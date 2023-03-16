@@ -3,6 +3,7 @@ let filtre_stage=[]
 let filtre_promotion=[]
 let filtre_taf=[]
 
+
 //alumni doit être l'element html de classe someone_li
 function vue_moins(alumni){
 

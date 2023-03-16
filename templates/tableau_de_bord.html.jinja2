@@ -136,12 +136,28 @@
             {% endif %}
             <ul class="someone">
 
+                    {% if person.etat_civil!=none %}
+                <li>
+                   <span>  Nom: {{ person.etat_civil}} {{person.last_name }}</span>
+                </li>
+
+                    {% endif %}
+
+                                {% if person.etat_civil==none %}
+                <li>
+                   <span>  Nom: {{person.last_name }}</span>
+                </li>
+
+                    {% endif %}
+
+
 
                 <li>
-                   <span> Nom: {{ person.last_name }}</span>
+                    <span>Prenom: {{ person.first_name }}</span>
                 </li>
                 <li>
-                    <span>Prenom: {{ person.first_name }}</span>
+
+                    <span>Role: {{ person.role }} </span>
                 </li>
 
                 <li>
