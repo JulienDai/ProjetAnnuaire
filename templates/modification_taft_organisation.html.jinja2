@@ -9,6 +9,8 @@
 
 <form action="/modification_taf_organisation/resultat" method="post">
 
+<button onclick="ajout_taf()"  type="button">Ajouter une taf</button>
+
 <table id="tableau_des_tafs">
   <thead>
     <tr>
@@ -18,7 +20,7 @@
         <th>Supprimer/ modifier</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="tbody_taf">
       {% for taf in tafs %}
     <tr class="taf">
 
@@ -42,6 +44,7 @@
 </table>
 
 
+<button type="button" onclick="ajout_organisation()" >Ajouter une organisation</button>
 
 <table id="tableau_des_organisations">
   <thead>
@@ -51,7 +54,7 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="tbody_organisation">
       {% for organisation in organisations %}
     <tr class="organisation">
 

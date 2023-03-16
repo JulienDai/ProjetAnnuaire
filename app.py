@@ -284,8 +284,11 @@ def action_base_donnee():
 
 @app.route('/tableau_de_bord',methods=['GET','POST'])
 def tableau_de_bord():
+
+
     id_connecte = request.args.get('id')
     admin=request.args.get('admin')
+
 
 
     people,pfes,all_tafs,organisations, positions=action_base_donnee()
@@ -298,6 +301,8 @@ def tableau_de_bord():
 @app.route('/modification_taf_organisation',methods=['GET','POST'])
 def modification_taf_organisation():
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
+
+    ##print(request.args.to_dict()) pour récupérer la requette
 
     return flask.render_template("modification_taft_organisation.html.jinja2",tafs=all_tafs,organisations=organisations)
 
