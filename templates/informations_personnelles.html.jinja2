@@ -21,8 +21,15 @@
     {% endif %}
 
     <br><br>
-    <form action={{ "resultat_informations_personnelles?id="+id }} method="POST" >
 
+    {% if admin!="admin" %}
+    <form action={{ "resultat_informations_personnelles?id="+id }} method="POST" >
+    {% endif %}
+
+    {% if admin=="admin" %}
+
+    <form action="resultat_informations_personnelles?id={{ id }}&admin=admin" method="POST" >
+    {% endif %}
 
     {% if person.etat_civil=="monsieur" %}
         <select name="etat_civil" id="etat_civil">

@@ -9,6 +9,15 @@
         <p>{{ person.first_name }}</p>
         <p>{{ person.promotion }}</p>
     {% endfor %}
+    <p> Vos modifications ont bien été enregistrées</p>
+    {% if admin=='admin' %}
+    <a href="/tableau_de_bord?admin={{ admin }}"> Revenir au tableau de bord</a>
+    {% endif %}
+
+    {% if admin!='admin' %}
+    <a href="/tableau_de_bord?id={{ id }}"> Revenir au tableau de bord</a>
+    {% endif %}
+
 
 </body>
 </head>

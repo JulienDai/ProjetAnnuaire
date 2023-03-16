@@ -71,7 +71,7 @@ def informations_personnelles():
 
    ## db.session.query(Person.query(id=id_connecte).all())
 
-    return flask.render_template("informations_personnelles.html.jinja2",pfe=pfe,id=id_connecte, person=person_connect,admin=admin,tafs=all_tafs)
+    return flask.render_template("informations_personnelles.html.jinja2",pfe=pfe,id=id_connecte,person=person_connect,admin=admin,tafs=all_tafs)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST','GET'])
@@ -87,8 +87,10 @@ def store():
     person_connect = get_person_by_id(id_connecte)
     modify_person(id_connecte, etat_civil, email, promotion, role, taf1, taf2)
 
+    admin=request.args.get('admin')
+
     people = Person.query.all()
-    return flask.render_template("resultat_informations_personnelles.html.jinja2", people=people)
+    return flask.render_template("resultat_informations_personnelles.html.jinja2", admin=admin,id=id_connecte,people=people)
 
 
 def save_object_to_db(db_object):
