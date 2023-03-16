@@ -58,9 +58,20 @@ def informations_personnelles():
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
 
+    pfe=None
+    for pfe_ in pfes:
+        if str(pfe_.student.id)==id_connecte:
+            pfe=pfe_
+            break
+
+
+
+
+
+
    ## db.session.query(Person.query(id=id_connecte).all())
 
-    return flask.render_template("informations_personnelles.html.jinja2",id=id_connecte, person=person_connect,admin=admin,tafs=all_tafs)
+    return flask.render_template("informations_personnelles.html.jinja2",pfe=pfe,id=id_connecte, person=person_connect,admin=admin,tafs=all_tafs)
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST','GET'])
