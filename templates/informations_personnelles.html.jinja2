@@ -28,8 +28,8 @@
     <option value="madame">Madame</option>
         </select>
 
-        <input type="text" class="email" id="email" name="email" placeholder="email" value="">
-        <input type="number" class="promotion" id="promotion" name="promotion" placeholder="promotion" value="">
+        <input type="text" class="email" id="email" name="email" placeholder="email" value={{ person.email }}>
+        <input type="number" class="promotion" id="promotion" name="promotion" placeholder="promotion" value={{ person.promotion }}>
 
 
         <select name="role" id="role">
@@ -42,16 +42,21 @@
     <div>
         <select name="taf1" id="taf1" >
     <option value="">--Votre Taf de deuxième année-- </option>
-    <option value="Ouii">ouii</option>
-    <option value="nooon">noon</option>
+    {% for taf in tafs %}
+    <option value={{ taf.name }}>{{ taf.name }}</option>
+
+      {% endfor %}
         </select>
 
 
         <select name="taf2" id="taf2" >
     <option value="">--Votre Taf de troisième année-- </option>
-    <option value="Ouii2">ouii2</option>
-    <option value="nooon2">noon2</option>
+     {% for taf in tafs %}
+    <option value={{ taf.name }}>{{ taf.name }}</option>
+
+      {% endfor %}
             </select>
+
 
 
 
