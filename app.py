@@ -40,6 +40,7 @@ def hello():
 
 @app.route("/clean")
 def clean():
+    db.session.commit()
     db.drop_all()
     db.create_all()
     return "Cleaned!"
@@ -81,11 +82,33 @@ def store():
     etat_civil = result['etat_civil']
     email = result['email']
     role= result['role']
-    taf1=get_taf_by_name('tee')
-    taf2=get_taf_by_name('dcl')
+    taf1=result['tee']
+    taf2=result['dcl']
+    """
+    # Récupération des données de stage
+
+    titre_sujet=result['titre_sujet']
+    organisation=result['organisation']
+    date_stage=result['date_stage']
+    duree_stage=result['duree_stage']
+    email_tuteur=result['email_tuteur']
+    nom_tuteur=result['nom_tuteur']
+    prenom_tuteur=result['prenom_tuteur']
+    description_projet=result['description_projet']
+
+    # Récupération de la position
+
+    add_position=result['add_position']
+    if add_position:
+        print('oui')
+        nom_entreprise=result['nom_entreprise']
+        date_debut_position=result['date_debut_position']
+        titre_position=result['titre_position']
+"""
+
     id_connecte = request.args.get('id')
     person_connect = get_person_by_id(id_connecte)
-    modify_person(id_connecte, etat_civil, email, promotion, role, taf1, taf2)
+  # modify_person(id_connecte, etat_civil, email, promotion, role, taf1, taf2)
 
     admin=request.args.get('admin')
 
@@ -184,7 +207,7 @@ def add_person(first_name, last_name, promotion, etat_civil, email, role, taf1, 
     new_person.tafs.append(taf1)
     new_person.tafs.append(taf2)
     db.session.add(new_person)
-    db.commit
+    db.session.commit()
 
 
 def action_base_donnee():
@@ -192,16 +215,16 @@ def action_base_donnee():
 
     # Creation Eleve
 
-    alexis = Person(id=1,first_name='Alexis', last_name='Grandjacquot', promotion=2022,
+    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
                     email='alexis', role='student')
-    julien = Person(id=2,first_name='Julien', last_name='Dai', promotion=2023,
+    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
                     email='julien', role='student')
-    johnny = Person(id=3,first_name='Johnny', last_name='Hallyday', promotion=1980,
+    johnny = Person(first_name='Johnny', last_name='Hallyday', promotion=1980,
                     email='johnny', role='teacher')
-    momo = Person(id=5)
-    toto = Person(id=6)
-    nono = Person(id=7)
-    roro = Person(id=8)
+    momo = Person()
+    toto = Person()
+    nono = Person()
+    roro = Person()
 
     db.session.add(alexis)
     db.session.add(julien)
@@ -210,6 +233,7 @@ def action_base_donnee():
     db.session.add(toto)
     db.session.add(nono)
     db.session.add(roro)
+
     db.session.commit()
 
     # ajout organisations
