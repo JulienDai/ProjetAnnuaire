@@ -46,6 +46,7 @@ class TAF(db.Model):
     name=db.Column(db.String(50))
     respo_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     respo = db.relationship('Person', backref='responsable_id')
+    description= db.Column(db.String(50))
 
 class Position(db.Model):
     id=db.Column(db.Integer, primary_key=True)

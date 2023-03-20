@@ -139,6 +139,11 @@ def modify_all(person_id, etat_civil, email, promotion, role, taf1, taf2, titre_
         db.session.add(new_position)
         db.session.commit()
 
+def get_id_by_only_email(email_personne):
+    people = Person.query.all()
+    for person in people:
+        if person.email == email_personne:
+            return (person.id)
 def get_pfe_by_student_id(student_id):
     people=Person.query.all()
     student=get_person_by_id(student_id)
@@ -367,6 +372,23 @@ def modification_taf_organisation():
 
 
 
+@app.route('/modification_taf_organisation/resultat', methods=['GET', 'POST'])
+def modification_tafs():
+
+    dictionnaire = request.form.to_dict()
+    tafs = TAF.query.all()
+    count=int(0)
+    for value in dictionnaire :
+        for taf in tafs:
+            if dictionnaire[value]==taf.name:
+                responsable_email=dictionnaire[value+'_responsable']
+                respo=get_id_by_only_email(responsable_email)
+                taf.respo_id=respo
+                taf.description=dictionnaire[value+'_description']
+
+
+
+    return('fin')
 
 
 if __name__ == '__main__':
