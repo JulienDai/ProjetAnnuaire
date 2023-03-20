@@ -8,8 +8,9 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\flaskProject4\\database\\database.db"
-## "sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db" \
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db"
+                                     ##  "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\flaskProject4\\database\\database.db"
+
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
@@ -52,6 +53,24 @@ def informations_personnelles():
    ## db.session.query(Person.query(id=id_connecte).all())
 
     return flask.render_template("informations_personnelles.html.jinja2",pfe=pfe,id=id_connecte,person=person_connect,admin=admin,tafs=all_tafs)
+
+@app.route('/creation_personne',methods=['GET'])
+def creation_personne():
+    people, pfes, all_tafs, organisations, positions = action_base_donnee()
+
+
+
+    admin='admin'
+    return flask.render_template("creation_personne.html.jinja2", admin=admin, tafs=all_tafs)
+
+@app.route('/resultat_creation_personne',methods=['GET','POST'])
+def resultat_creation_personne():
+
+    admin='admin'
+    return flask.render_template("resultat_informations_personnelles.html.jinja2",admin=admin)
+
+
+
 
 
 @app.route('/resultat_informations_personnelles', methods=['POST','GET'])

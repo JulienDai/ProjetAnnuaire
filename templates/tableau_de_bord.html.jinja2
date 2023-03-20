@@ -11,6 +11,15 @@
     <h2> Tableau de Bord</h2>
     <span>Nombre total d'entreprises: {{ nombre_organisations }}<br>Nombre de personnes: {{ nombre_personnes }}  </span>
 
+    {% if (admin=='admin') %}
+        <a class="modification_tafs_organisation" href="/modification_taf_organisation"> Modification Tafs et Organisations</a>
+
+        <a class="ajout_personne" href="/creation_personne?admin=admin">Ajout d'une nouvelle personne</a>
+
+
+    {% endif %}
+
+
     {% if(admin!='admin') %}
 
 <a class="profil" href="/informations_personnelles?id={{ id_connecte}}">
