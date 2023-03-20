@@ -142,6 +142,9 @@
             <button id="button_moins" class="button_plus_moins" onclick="vue_moins(event.target.parentElement.parentElement)">-</button>
             {% if(admin=='admin') %}
                 <a id="modifier" class="modifier" href="/informations_personnelles?id={{ person.id}}&admin=admin"> Modifier</a>
+
+                <a id="supprimer" class="supprimer_personne" href="/supprimer_personne?id={{ person.id}}"> Supprimer</a>
+
             {% endif %}
             <ul class="someone">
 
@@ -224,6 +227,22 @@
                 <li>
                     <span> Stage: <span id="stage">{{  pfe.organisation.entreprise}}</span> </span>
                 </li>
+
+                            <li>
+                            <span>Nom du Tuteur: <span id="tuteur_name">{{ pfe.supervisor.last_name }}</span> </span>
+                            </li>
+
+                            <li>
+                            <span>Prénom du Tuteur: <span id="tuteur_name">{{ pfe.supervisor.first_name }}</span> </span>
+                            </li>
+
+
+                            <li>
+                            <span>Email du Tuteur: <span id="tuteur_name">{{ pfe.supervisor.email }}</span> </span>
+                            </li>
+
+
+
 
                         <li>
                         <span> Description du stage: {{ pfe.description }}</span>

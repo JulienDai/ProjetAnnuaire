@@ -53,6 +53,14 @@
         </select>
     {% endif %}
 
+    {% if person.etat_civil==none %}
+     <select name="etat_civil" id="etat_civil">
+         <option value="">--Please choose an option</option>
+    <option value="madame">Madame</option>
+    <option value="monsieur">Monsieur</option>
+        </select>
+    {% endif %}
+
 
 
 
@@ -98,9 +106,15 @@
         <option value="student">Elève</option>
 
         </select>
+    {% endif %}
+    {% if person.role==none %}
+            <select name="role" id="role">
+    <option value="">--Please choose an option</option>
+        <option value="alumni">Alumni</option>
+        <option value="teacher">Professeur</option>
+        <option value="student">Elève</option>
 
-
-
+        </select>
     {% endif %}
 
     <div>

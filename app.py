@@ -18,15 +18,11 @@ app.config["SECRET_KEY"] = "secret_key1234"
 
 db.init_app(app)
 
-
-
 @app.route("/clean")
 def clean():
     db.drop_all()
     db.create_all()
-    return "Cleaned!"
-
-
+    return('cleared')
 @app.route('/informations_personnelles',methods=['GET'])
 def informations_personnelles():
 
@@ -155,7 +151,9 @@ def modify_all(person_id, etat_civil, email, promotion, role, taf1, taf2, titre_
     person = get_person_by_id(person_id)
     first_name = person.first_name
     last_name = person.last_name
-    pfe, pfe_id = get_pfe_by_student_id(person_id)
+    pfe= get_pfe_by_student_id(person_id)
+    if pfe!=None:
+        pfe_id=pfe.id
 
 
     remove_object_from_db(person)
@@ -172,11 +170,18 @@ def modify_all(person_id, etat_civil, email, promotion, role, taf1, taf2, titre_
     db.session.commit()
 
     tuteur = get_person_by_email(email_tuteur, nom_tuteur, prenom_tuteur)
-    remove_object_from_db(pfe)
+    if pfe!=None:
+        remove_object_from_db(pfe)
 
-    new_pfe = PFE(id=pfe_id, student_id=person_id, supervisor_id=tuteur.id,
+
+        new_pfe = PFE(id=pfe_id, student_id=person_id, supervisor_id=tuteur.id,
                   organisation_id=get_organisation_by_name(organisation).id, year=date_stage, duration=duree_stage,
                   description=description_projet, title=titre_sujet)
+
+    else:
+        new_pfe = PFE(student_id=person_id, supervisor_id=tuteur.id,
+                      organisation_id=get_organisation_by_name(organisation).id, year=date_stage, duration=duree_stage,
+                      description=description_projet, title=titre_sujet)
 
     db.session.add(new_pfe)
     db.session.commit()
@@ -200,7 +205,7 @@ def get_pfe_by_student_id(student_id):
     pfes = PFE.query.all()
     for pfe in pfes:
         if pfe.student_id==int(student_id):
-            return pfe,pfe.id
+            return pfe
 
 
 
@@ -403,7 +408,22 @@ def modification_tafs():
     for organisation in organisations:
         print(organisation.entreprise)
 
-    return('oui')
+    admin = 'admin'
+    return flask.render_template("resultat_informations_personnelles.html.jinja2", admin=admin)
+
+
+
+@app.route('/supprimer_personne', methods=['GET', 'POST'])
+
+def remove_person():
+    id_connecte = request.args.get('id')
+    print(id_connecte)
+    print(get_person_by_id(id_connecte))
+
+    remove_object_from_db(get_person_by_id(id_connecte))
+
+    admin = 'admin'
+    return flask.render_template("resultat_informations_personnelles.html.jinja2", admin=admin)
 
 
 if __name__ == '__main__':

@@ -38,6 +38,18 @@
 
 }
 
+.supprimer_personne{
+        display: block;
+    background-color: #fc1e1e;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #fc1e1e;
+
+
+}
+
 .button_supprimer{
     border-style: none;
     background-color:#dedede ;
