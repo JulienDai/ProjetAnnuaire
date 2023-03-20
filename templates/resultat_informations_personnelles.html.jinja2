@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
         <title>merci</title>
     <body>merci
-    {% for person in people %}
+<!-- {% for person in people %}
         <p>{{ person.id }}</p>
         <p>{{ person.first_name }}</p>
         <p>{{ person.promotion }}</p>
+    {% endfor %}
+-->
+
+    {% for pfe in pfes %}
+        <p>{{ pfe.id }}</p>
+        <p>{{ pfe.supervisor.name }}</p>
     {% endfor %}
     <p> Vos modifications ont bien été enregistrées</p>
     {% if admin=='admin' %}
@@ -17,6 +23,8 @@
     {% if admin!='admin' %}
     <a href="/tableau_de_bord?id={{ id }}"> Revenir au tableau de bord</a>
     {% endif %}
+
+
 
 
 </body>

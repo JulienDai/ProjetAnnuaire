@@ -63,6 +63,8 @@
 
     {% if person.role=="student" %}
         <select name="role" id="role">
+
+            <option value="">--Please choose an option</option>
             <option value="student">Elève</option>
             <option value="teacher">Professeur</option>
             <option value="alumni">Alumni</option>
@@ -107,7 +109,7 @@
     {% for taf in tafs %}
     <option value={{ taf.name }}>{{ taf.name }}</option>
 
-      {% endfor %}
+    {% endfor %}
         </select>
 
 
@@ -169,7 +171,7 @@
 
         <div class="position" id="position">
         <label for="add_position">Cochez si vous voulez ajouter une nouvelle position:</label>
-            <input type="checkbox" id="add_position" class="add_position">
+            <input type="checkbox" id="add_position" class="add_position" name="add_position">
 
             <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Nom Entreprise">
 

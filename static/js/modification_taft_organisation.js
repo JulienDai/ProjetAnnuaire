@@ -64,7 +64,7 @@ function supprimer_taf_ou_organisation(element){
 
 function ajout_taf(){
     new_taf++;
-   let tbody_tafs= document.getElementById("tbody_taf");
+    let tbody_tafs= document.getElementById("tbody_taf");
 
     let tr=document.createElement("tr")
     tr.className="taf"
