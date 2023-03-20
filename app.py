@@ -32,9 +32,11 @@ def informations_personnelles():
     id_connecte = request.args.get('id')
     admin=request.args.get('admin')
 
+
     person_connect=get_person_by_id(id_connecte)
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
 
+    print(type(person_connect.etat_civil))
 
     pfe=None
     for pfe_ in pfes:
@@ -79,21 +81,22 @@ def store():
     # Récupération de la position
 
     result=request.form
-
-    add_position=result['add_position']
-    nom_entreprise=result['nom_entreprise']
-    date_debut_position=result['date_debut_position']
-    titre_position=result['titre_position']
+    try :
+        add_position=result['add_position']
+        nom_entreprise = result['nom_entreprise']
+        date_debut_position = result['date_debut_position']
+        titre_position = result['titre_position']
+    except :
+        add_position='no'
+        nom_entreprise=""
+        date_debut_position=""
+        titre_position=""
 
 
     id_connecte = request.args.get('id')
-    person_connect = get_person_by_id(id_connecte)
     modify_all(id_connecte, etat_civil, email, promotion, role, taf1, taf2, titre_sujet, organisation, date_stage,
                duree_stage, email_tuteur, description_projet, nom_tuteur, prenom_tuteur, nom_entreprise,
                date_debut_position, titre_position, add_position)
-    #modify_person(id_connecte, etat_civil, email, promotion, role, taf1, taf2)
-    #modify_pfe(titre_sujet, organisation, date_stage, duree_stage, email_tuteur, description_projet, id_connecte,
-    #           nom_tuteur, prenom_tuteur)
     admin=request.args.get('admin')
 
     people = Person.query.all()
@@ -117,8 +120,11 @@ def modify_all(person_id, etat_civil, email, promotion, role, taf1, taf2, titre_
                         promotion=promotion, role=role, email=email)
 
     db.session.add(new_person)
-    new_person.tafs.append(get_taf_by_name(taf1))
-    new_person.tafs.append(get_taf_by_name(taf2))
+
+    if taf1!="":
+        new_person.tafs.append(get_taf_by_name(taf1))
+    if taf2!="":
+        new_person.tafs.append(get_taf_by_name(taf2))
 
     db.session.commit()
 
@@ -190,14 +196,6 @@ def get_organisation_by_name(entreprise_name):
     db.session.commit()
     return(new_organisation)
 
-def add_organisation_to_position(date_debut_position, nom_entreprise, add_position, titre_position, id_eleve):
-    if add_position:
-        organisation=get_organisation_by_name(nom_entreprise)
-        new_position=position(employee=id_eleve, entry_date=date_debut_position, title=titre_position)
-        db.session.add(new_position)
-        position.organisation.append(organisation)
-        db.commit()
-
 
 def add_taf_to_person(id_eleve, taf):
     person=get_person_by_id(id_eleve)
@@ -244,99 +242,6 @@ def add_person(first_name, last_name, promotion, etat_civil, email, role, taf1, 
 
 
 def action_base_donnee():
-    db.drop_all()
-    db.create_all()
-
-    # Creation Eleve
-
-    alexis = Person(first_name='Alexis', last_name='Grandjacquot', promotion=2022,
-                    email='alexis', role='student')
-    julien = Person(first_name='Julien', last_name='Dai', promotion=2023,
-                    email='julien', role='student')
-    johnny = Person(first_name='Johnny', last_name='Hallyday', promotion=1980,
-                    email='johnny', role='teacher')
-    momo = Person()
-    toto = Person()
-    nono = Person()
-    roro = Person()
-
-    db.session.add(alexis)
-    db.session.add(julien)
-    db.session.add(johnny)
-    db.session.add(momo)
-    db.session.add(toto)
-    db.session.add(nono)
-    db.session.add(roro)
-
-    db.session.commit()
-
-    # ajout organisations
-
-    google = Organisation(entreprise='google')
-    firefox = Organisation(entreprise='firefox')
-    amazon = Organisation(entreprise='amazon')
-
-    db.session.add(google)
-    db.session.add(firefox)
-    db.session.add(amazon)
-
-    db.session.commit()
-
-    # Creation PFE
-
-    expert = PFE(supervisor_id=4, student_id=1, organisation=firefox,
-                 year=2018, duration=4,
-                 description='developpement android', title='yoyo')
-    ingenieur = PFE(supervisor_id=5, student_id=2, organisation=google,
-                    year=2019, duration=6,
-                    description='python', title='popo')
-    decouverte = PFE(supervisor_id=6, student_id=3, organisation=amazon,
-                     year=1978, duration=2,
-                     description='feuuuu', title='gogo')
-
-    db.session.add(expert)
-    db.session.add(ingenieur)
-    db.session.add(decouverte)
-
-    db.session.commit()
-
-    # ajout positions
-
-    ceo = Position(entry_date=2022, title='CEO', person_id=1)
-    stagiaire = Position(entry_date=2021, title='stagiaire', person_id=2)
-    developpeur = Position(entry_date=1998, title='fullstack', person_id=3)
-
-    db.session.add(ceo)
-    db.session.add(stagiaire)
-    db.session.add(developpeur)
-
-    ceo.organisation.append(google)
-    stagiaire.organisation.append(amazon)
-    developpeur.organisation.append(google)
-    developpeur.organisation.append(firefox)
-
-    # ajout tafs
-
-    dcl = TAF(name='dcl')
-    tee = TAF(name='tee')
-    demin = TAF(name='demin')
-    login = TAF(name='login')
-
-    db.session.add(dcl)
-    db.session.add(tee)
-    db.session.add(demin)
-    db.session.add(login)
-
-    # attribution tafs
-
-    alexis.tafs.append(dcl)
-    alexis.tafs.append(demin)
-    julien.tafs.append(dcl)
-    julien.tafs.append(tee)
-    johnny.tafs.append(login)
-
-    db.session.commit()
-
 
     people = Person.query.all()
     pfes = PFE.query.all()
@@ -377,20 +282,66 @@ def modification_tafs():
 
     dictionnaire = request.form.to_dict()
     tafs = TAF.query.all()
+    organisations=Organisation.query.all()
     count=int(0)
-    for value in dictionnaire :
-        for taf in tafs:
-            if dictionnaire[value]==taf.name:
-                responsable_email=dictionnaire[value+'_responsable']
-                respo=get_id_by_only_email(responsable_email)
-                taf.respo_id=respo
-                taf.description=dictionnaire[value+'_description']
+
+    while dictionnaire != {} :
+
+        value=list(dictionnaire.keys())[0]
+
+
+        if (value[0]=='<' or value[:12] == 'organisation'):
+            print(value[:12])
+            for organisation in organisations:
+                if organisation.entreprise==dictionnaire[value]:
+                    count=1
+
+            if count==0:
+
+                new_organisation=Organisation(entreprise=dictionnaire[value])
+                count=1
+
+                db.session.add(new_organisation)
+                db.session.commit()
+            dictionnaire.pop(value)
+
+
+        if value[0]!='<' and value[:12] != 'organisation':
+            for taf in tafs:
+                if dictionnaire[value]==taf.name:
+                    responsable_email=dictionnaire[value+'_responsable']
+                    respo=get_id_by_only_email(responsable_email)
+                    taf.respo_id=respo
+                    taf.description=dictionnaire[value+'_description']
+                    count=1
+
+
+            if count==0:
+                responsable_email = dictionnaire[value + '_responsable']
+                respo = get_id_by_only_email(responsable_email)
+                new_taf = TAF(name = dictionnaire[value], respo_id=respo, description = dictionnaire[value+'_description'])
+                db.session.add(new_taf)
+                db.session.commit()
+
+
+            dictionnaire.pop(value)
+            dictionnaire.pop(value + '_responsable')
+            dictionnaire.pop(value + '_description')
+        count=0
 
 
 
 
 
-    return('fin')
+    tafs = TAF.query.all()
+    for taf in tafs:
+        print(taf.name)
+
+    organisations = Organisation.query.all()
+    for organisation in organisations:
+        print(organisation.entreprise)
+
+    return('oui')
 
 
 if __name__ == '__main__':
