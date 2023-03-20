@@ -8,8 +8,9 @@ from database.models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db"
-                                     ##  "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\flaskProject4\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] =   "sqlite:///C:\\Users\\julie\\OneDrive\\Documents\\DCL\\web\\flaskProject4\\database\\database.db"
+    ##"sqlite:///C:\\Users\\alexi\\PycharmProjects\\projet_avec_git\\ProjetAnnuaire\\database\\database.db"
+
 
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -57,14 +58,37 @@ def informations_personnelles():
 @app.route('/creation_personne',methods=['GET'])
 def creation_personne():
     people, pfes, all_tafs, organisations, positions = action_base_donnee()
-
-
-
     admin='admin'
+
+
     return flask.render_template("creation_personne.html.jinja2", admin=admin, tafs=all_tafs)
 
 @app.route('/resultat_creation_personne',methods=['GET','POST'])
 def resultat_creation_personne():
+    def add_person(etat_civil, email, promotion, role, taf1, taf2, nom, prenom):
+
+        new_person = Person(first_name=prenom, last_name=nom, etat_civil=etat_civil,
+                            promotion=promotion, role=role, email=email)
+
+        db.session.add(new_person)
+        if taf1 != "":
+            new_person.tafs.append(get_taf_by_name(taf1))
+        if taf2 != "":
+            new_person.tafs.append(get_taf_by_name(taf2))
+
+        db.session.commit()
+
+    result = request.form
+    promotion=result['promotion']
+    etat_civil = result['etat_civil']
+    email = result['email']
+    role= result['role']
+    taf1=result['taf1']
+    taf2=result['taf2']
+    nom=result['nom']
+    prenom=result['prenom']
+
+    add_person(etat_civil, email, promotion, role, taf1, taf2, nom, prenom)
 
     admin='admin'
     return flask.render_template("resultat_informations_personnelles.html.jinja2",admin=admin)
@@ -303,6 +327,25 @@ def modification_tafs():
     tafs = TAF.query.all()
     organisations=Organisation.query.all()
     count=int(0)
+    tafs_existantes=[]
+    organisations_existantes=[]
+
+    for taf in tafs:
+        for value in dictionnaire:
+            if taf.name==dictionnaire[value]:
+                tafs_existantes.append(taf)
+    for taf in tafs:
+        if taf not in tafs_existantes:
+            remove_object_from_db(taf)
+    for organisation in organisations:
+        for value in dictionnaire:
+            if organisation.entreprise==dictionnaire[value]:
+                organisations_existantes.append(organisation)
+    for organisation in organisations:
+        if organisation not in organisations_existantes:
+            remove_object_from_db(organisation)
+
+
 
     while dictionnaire != {} :
 
