@@ -113,6 +113,16 @@ h3{
     border: 1px solid #007bff;
 
 }
+.ajout_personne{
+    position: absolute;
+    right:10px;
+    top:40px;
+}
+.modification_tafs_organisation{
+    position: absolute;
+    right:10px;
+    top:60px;
+}
 
 
 
